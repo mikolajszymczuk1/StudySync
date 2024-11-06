@@ -1,5 +1,5 @@
 <template>
-  <IonApp>
+  <IonApp class="app">
     <IonRouterOutlet />
   </IonApp>
 </template>

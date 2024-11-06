@@ -17,4 +17,13 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @use "@/assets/scss/variables" as *;
+        `,
+      },
+    },
+  },
 });
