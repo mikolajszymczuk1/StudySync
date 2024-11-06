@@ -1,25 +1,23 @@
 <template>
   <IonPage>
     <IonTabs>
-      <IonRouterOutlet />
-      <template #bottom>
-        <IonTabBar>
-          <IonTabButton tab="tab1" href="/tabs/tab1">
-            <IonIcon aria-hidden="true" :icon="triangle" />
-            <IonLabel>Tab 1</IonLabel>
-          </IonTabButton>
+      <IonRouterOutlet></IonRouterOutlet>
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="tab1" href="/tabs/tab1">
+          <IonIcon aria-hidden="true" :icon="triangle" />
+          <IonLabel>Tab 1</IonLabel>
+        </IonTabButton>
 
-          <IonTabButton tab="tab2" href="/tabs/tab2">
-            <IonIcon aria-hidden="true" :icon="ellipse" />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
+        <IonTabButton tab="tab2" href="/tabs/tab2">
+          <IonIcon aria-hidden="true" :icon="ellipse" />
+          <IonLabel>Tab 2</IonLabel>
+        </IonTabButton>
 
-          <IonTabButton tab="tab3" href="/tabs/tab3">
-            <IonIcon aria-hidden="true" :icon="square" />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </template>
+        <IonTabButton tab="tab3" href="/tabs/tab3">
+          <IonIcon aria-hidden="true" :icon="square" />
+          <IonLabel>Tab 3</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
     </IonTabs>
   </IonPage>
 </template>
