@@ -78,7 +78,7 @@ import {
   $self: &;
 
   &__tabBar {
-    height: 106px;
+    height: 80px;
 
     background-color: $darkMaroon;
   }
