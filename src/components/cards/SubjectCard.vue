@@ -14,18 +14,18 @@
           <p class="subjectCard__name">Subject name</p>
           <div class="subjectCard__wrapper">
             <p class="subjectCard__text">Start: {{ subjectData.start }}</p>
+            <p class="subjectCard__text">End: {{ subjectData.end }}</p>
             <p class="subjectCard__text">{{ subjectData.classNumber }}</p>
           </div>
-          <p class="subjectCard__text">End: {{ subjectData.end }}</p>
         </div>
       </IonContent>
     </IonModal>
     <p class="subjectCard__name">Subject name</p>
     <div class="subjectCard__wrapper">
       <p class="subjectCard__text">Start: {{ subjectData.start }}</p>
+      <p class="subjectCard__text">End: {{ subjectData.end }}</p>
       <p class="subjectCard__text">{{ subjectData.classNumber }}</p>
     </div>
-    <p class="subjectCard__text">End: {{ subjectData.end }}</p>
   </div>
 </template>
 
@@ -75,9 +75,9 @@ const setDetailsPopupOpen = (value: boolean): void => {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 10px;
+  padding: 6px;
 
-  background-color: $lightBlue;
+  background-color: $ColorTertiary;
   overflow: hidden;
   border-radius: 6px;
 
@@ -98,19 +98,26 @@ const setDetailsPopupOpen = (value: boolean): void => {
   }
 
   &__name {
-    margin: 0 0 3px 0;
+    margin: 0 0 6px 0;
+    padding: 4px 0;
+
+    background-color: $ColorAccentVariant;
+    border-radius: 6px;
 
     font-family: $teachers;
     font-size: 0.875rem;
-    color: $darkMaroon;
+    color: $ColorWhite;
+    text-align: center;
     font-weight: 500;
   }
 
   &__wrapper {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
 
-    margin-bottom: 3px;
+    background-color: transparent;
   }
 
   &__text {
@@ -118,7 +125,8 @@ const setDetailsPopupOpen = (value: boolean): void => {
 
     font-family: $teachers;
     font-size: 0.75rem;
-    color: $darkMaroon;
+    color: $ColorAccentVariant;
+    font-weight: 500;
   }
 }
 </style>

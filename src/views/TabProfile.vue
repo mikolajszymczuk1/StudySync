@@ -1,26 +1,19 @@
 <template>
-  <IonPage>
-    <IonHeader>
-      <IonToolbar>
-        <IonTitle>Profile</IonTitle>
-      </IonToolbar>
-    </IonHeader>
+  <PageBase class="tabProfile">
     <IonContent :fullscreen="true">
-      <IonHeader collapse="condense">
-        <IonToolbar>
-          <IonTitle size="large">Profile tab</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <TabMainContent>
+        <TabHeading>
+          Welcome, <br />
+          <span>Username</span>
+        </TabHeading>
+      </TabMainContent>
     </IonContent>
-  </IonPage>
+  </PageBase>
 </template>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-} from '@ionic/vue';
+import { IonContent } from '@ionic/vue';
+import TabMainContent from '@/components/layouts/TabMainContent.vue';
+import TabHeading from '@/components/ui/TabHeading.vue';
+import PageBase from '@/components/layouts/PageBase.vue';
 </script>

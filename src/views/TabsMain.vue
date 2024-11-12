@@ -1,5 +1,6 @@
 <template>
   <IonPage class="tabsMain">
+    <NavBar />
     <IonTabs>
       <IonRouterOutlet></IonRouterOutlet>
       <IonTabBar slot="bottom" class="tabsMain__tabBar">
@@ -7,6 +8,7 @@
           class="tabsMain__tabButton"
           tab="tabProfile"
           href="/tabs/profile"
+          @click.prevent="changeTab('profile')"
         >
           <FontAwesomeIcon class="tabsMain__tabButtonIcon" :icon="faUser" />
           <IonLabel class="tabsMain__tabButtonLabel">Profile</IonLabel>
@@ -15,6 +17,7 @@
           class="tabsMain__tabButton"
           tab="tabEvents"
           href="/tabs/events"
+          @click.prevent="changeTab('events')"
         >
           <FontAwesomeIcon
             class="tabsMain__tabButtonIcon"
@@ -26,6 +29,7 @@
           class="tabsMain__tabButton"
           tab="tabHome"
           href="/tabs/home"
+          @click.prevent="changeTab('home')"
         >
           <FontAwesomeIcon class="tabsMain__tabButtonIcon" :icon="faHouse" />
           <IonLabel class="tabsMain__tabButtonLabel">Home</IonLabel>
@@ -34,6 +38,7 @@
           class="tabsMain__tabButton"
           tab="tabSubjects"
           href="/tabs/subjects"
+          @click.prevent="changeTab('subjects')"
         >
           <FontAwesomeIcon class="tabsMain__tabButtonIcon" :icon="faBook" />
           <IonLabel class="tabsMain__tabButtonLabel">Subjects</IonLabel>
@@ -42,6 +47,7 @@
           class="tabsMain__tabButton"
           tab="tabGrades"
           href="/tabs/grades"
+          @click.prevent="changeTab('grades')"
         >
           <FontAwesomeIcon
             class="tabsMain__tabButtonIcon"
@@ -62,6 +68,7 @@ import {
   IonLabel,
   IonPage,
   IonRouterOutlet,
+  useIonRouter,
 } from '@ionic/vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
@@ -71,6 +78,17 @@ import {
   faBook,
   faGraduationCap,
 } from '@fortawesome/free-solid-svg-icons';
+import NavBar from '@/components/common/NavBar.vue';
+
+const router = useIonRouter();
+
+/**
+ * Change current tab
+ * @param {string} tabPathName tab path name
+ */
+const changeTab = (tabPathName: string): void => {
+  router.push(`/tabs/${tabPathName}`);
+};
 </script>
 
 <style scoped lang="scss">
@@ -80,19 +98,25 @@ import {
   &__tabBar {
     height: 80px;
 
-    background-color: $darkMaroon;
+    background-color: $ColorAccentVariant;
+    border-radius: 20px 20px 0 0;
   }
 
   &__tabButton {
-    background-color: $darkMaroon;
+    background-color: $ColorAccentVariant;
+    border-radius: 20px;
+
+    &.tab-selected {
+      background-color: $ColorAccent;
+    }
   }
 
   &__tabButtonIcon {
-    color: rgba(white, 0.15);
+    color: rgba($ColorTertiary, 0.5);
     font-size: 25px;
 
     #{ $self }__tabButton.tab-selected & {
-      color: $cyan;
+      color: $ColorWhite;
     }
   }
 
@@ -101,11 +125,11 @@ import {
 
     font-family: $teachers;
     font-weight: 500;
-    color: rgba(white, 0.15);
+    color: rgba($ColorTertiary, 0.5);
     font-size: 0.75rem;
 
     #{ $self }__tabButton.tab-selected & {
-      color: $cyan;
+      color: $ColorWhite;
     }
   }
 }

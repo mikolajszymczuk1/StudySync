@@ -1,42 +1,40 @@
 <template>
-  <IonPage class="tabHome">
-    <IonHeader class="menuHeader">
-      <IonToolbar class="menuHeader__headerToolbar">
-        <IonTitle class="menuHeader__logo">Study Sync</IonTitle>
-        <IonButtons slot="end">
-          <IonButton class="menuHeader__menuButton">
-            <FontAwesomeIcon class="menuHeader__menuIcon" :icon="faBars" />
-          </IonButton>
-        </IonButtons>
-      </IonToolbar>
-    </IonHeader>
+  <PageBase class="tabHome">
     <IonContent :fullscreen="true">
-      <div class="tabHome__decorationUnder"></div>
-      <div class="tabHome__tabMainContent">
-        <SubjectsCalendar :subjects="subjects" />
-        <div class="">
-          <UpcomingEvents :events="events" />
-        </div>
-      </div>
+      <TabMainContent>
+        <TabHeading large-bottom-space>
+          Become a
+          <span>
+            time <br />
+            management <br />
+          </span>
+          master
+        </TabHeading>
+        <EvenOddCalendarToggle class="tabHome__evenOddCalendarToggleWidget" />
+        <SubjectsCalendar
+          class="tabHome__subjectsCalendarWidget"
+          :subjects="subjects"
+        />
+        <UpcomingEvents
+          class="tabHome__upcomingEventsWidget"
+          :events="events"
+        />
+        <TasksList />
+      </TabMainContent>
     </IonContent>
-  </IonPage>
+  </PageBase>
 </template>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonButtons,
-  IonButton,
-} from '@ionic/vue';
+import { IonContent } from '@ionic/vue';
 import type { EventData, SubjectData } from '@/types/commonTypes';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import SubjectsCalendar from '@/widgets/SubjectsCalendar.vue';
 import UpcomingEvents from '@/widgets/UpcomingEvents.vue';
+import TabMainContent from '@/components/layouts/TabMainContent.vue';
+import TabHeading from '@/components/ui/TabHeading.vue';
+import EvenOddCalendarToggle from '@/widgets/EvenOddCalendarToggle.vue';
+import PageBase from '@/components/layouts/PageBase.vue';
+import TasksList from '@/widgets/TasksList.vue';
 
 const subjects: SubjectData[] = [
   {
@@ -76,71 +74,24 @@ const subjects: SubjectData[] = [
   },
 ];
 
-const events: EventData[] = [];
+const events: EventData[] = [
+  { name: 'Some event 1', eventDate: '12-01-2024' },
+  {
+    name: 'Some event 2',
+    eventDate: '10-10-2024',
+  },
+];
 </script>
 
 <style scoped lang="scss">
 .tabHome {
-  position: relative;
-
-  &__decorationUnder {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 485px;
-
-    background: $darkRose;
-    background: linear-gradient(
-      90deg,
-      rgba($darkRose, 1) 0%,
-      rgba($lightSky, 1) 100%
-    );
-    border-radius: 0 0 25px 25px;
+  &__evenOddCalendarToggleWidget {
+    margin-bottom: 10px;
   }
 
-  &__tabMainContent {
-    position: relative;
-    padding: 0 15px;
-  }
-}
-
-.menuHeader {
-  position: relative;
-
-  box-shadow: none;
-
-  &__headerToolbar {
-    --background: transparent;
-    --min-height: auto;
-
-    display: flex;
-    padding: 30px 15px;
-
-    background: $darkRose;
-    background: linear-gradient(
-      90deg,
-      rgba($darkRose, 1) 0%,
-      rgba($lightSky, 1) 100%
-    );
-  }
-
-  &__logo {
-    padding-left: 0;
-
-    font-family: $teachers;
-    font-size: 2.1875rem;
-    font-weight: 700;
-    color: $white;
-  }
-
-  &__menuButton button {
-    padding: 0;
-  }
-
-  &__menuIcon {
-    color: rgba($white, 0.8);
-    font-size: 1.25rem;
+  &__subjectsCalendarWidget,
+  &__upcomingEventsWidget {
+    margin-bottom: 15px;
   }
 }
 </style>
