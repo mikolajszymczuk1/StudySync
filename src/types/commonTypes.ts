@@ -10,3 +10,8 @@ export type EventData = {
   name: string;
   eventDate: string;
 };
+
+export type SelectOption = {
+  text: string;
+  value: string;
+};

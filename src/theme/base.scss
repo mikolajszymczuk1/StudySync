@@ -1,0 +1,11 @@
+@use '../assets/scss/variables' as *;
+
+body {
+  background-image:
+    url('/assets/pattern.png'),
+    linear-gradient(100deg, rgba($ColorSecondary, 1) 0%, rgba($ColorPrimary, 1) 32%, rgba($ColorTertiary, 1) 100%);
+  background-attachment: fixed;
+  background-size: auto, cover;
+  min-height: 100vh;
+  margin: 0;
+}

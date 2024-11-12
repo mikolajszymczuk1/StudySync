@@ -85,11 +85,11 @@ const getSubject = (
   width: 100%;
   height: 500px;
 
-  background-color: $white;
-  border-radius: 15px;
+  background-color: $ColorWhite;
+  border-radius: 20px;
   overflow: auto;
   scrollbar-width: none;
-  border: solid 15px $white;
+  border: solid 15px $ColorWhite;
 
   &::-webkit-scrollbar {
     display: none;
@@ -115,15 +115,15 @@ const getSubject = (
     position: sticky;
     top: 0;
 
-    background-color: $white;
-    border-bottom: solid 1px rgba($darkMaroon, 0.1);
-    border-left: solid 1px rgba($darkMaroon, 0.1);
-    border-right: solid 1px rgba($darkMaroon, 0.1);
+    background-color: $ColorWhite;
+    border-bottom: solid 1px rgba($ColorAccentVariant, 0.06);
+    border-left: solid 1px rgba($ColorAccentVariant, 0.06);
+    border-right: solid 1px rgba($ColorAccentVariant, 0.06);
 
     text-align: center;
-    color: $darkMaroon;
+    color: $ColorAccentVariant;
     font-family: $teachers;
-    font-weight: 500;
+    font-weight: 600;
 
     z-index: 3;
 
@@ -142,14 +142,14 @@ const getSubject = (
     position: sticky;
     left: 0;
 
-    border-right: solid 1px rgba($darkMaroon, 0.1);
-    border-bottom: solid 1px rgba($darkMaroon, 0.1);
-    border-top: solid 1px rgba($darkMaroon, 0.1);
-    background-color: $white;
+    border-right: solid 1px rgba($ColorAccentVariant, 0.06);
+    border-bottom: solid 1px rgba($ColorAccentVariant, 0.06);
+    border-top: solid 1px rgba($ColorAccentVariant, 0.06);
+    background-color: $ColorWhite;
 
-    color: $darkMaroon;
+    color: $ColorAccentVariant;
     font-family: $teachers;
-    font-weight: 500;
+    font-weight: 600;
 
     z-index: 2;
   }
@@ -157,7 +157,7 @@ const getSubject = (
   &__cell {
     position: relative;
 
-    border: solid 1px rgba($darkMaroon, 0.1);
+    border: solid 1px rgba($ColorAccentVariant, 0.06);
     box-sizing: border-box;
   }
 }

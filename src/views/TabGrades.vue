@@ -1,26 +1,19 @@
 <template>
-  <IonPage>
-    <IonHeader>
-      <IonToolbar>
-        <IonTitle>Grades</IonTitle>
-      </IonToolbar>
-    </IonHeader>
+  <PageBase class="tabGrades">
     <IonContent :fullscreen="true">
-      <IonHeader collapse="condense">
-        <IonToolbar>
-          <IonTitle size="large">Grades tab</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <TabMainContent>
+        <TabHeading>
+          Manage <br />
+          your <span>grades</span>
+        </TabHeading>
+      </TabMainContent>
     </IonContent>
-  </IonPage>
+  </PageBase>
 </template>
 
 <script setup lang="ts">
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-} from '@ionic/vue';
+import { IonContent } from '@ionic/vue';
+import TabMainContent from '@/components/layouts/TabMainContent.vue';
+import TabHeading from '@/components/ui/TabHeading.vue';
+import PageBase from '@/components/layouts/PageBase.vue';
 </script>
