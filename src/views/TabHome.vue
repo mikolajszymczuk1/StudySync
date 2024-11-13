@@ -19,7 +19,7 @@
           class="tabHome__upcomingEventsWidget"
           :events="events"
         />
-        <TasksList />
+        <TasksList class="tabHome__tasksListWidget" />
       </TabMainContent>
     </IonContent>
   </PageBase>
@@ -92,6 +92,10 @@ const events: EventData[] = [
   &__subjectsCalendarWidget,
   &__upcomingEventsWidget {
     margin-bottom: 15px;
+  }
+
+  &__tasksListWidget {
+    margin-bottom: 30px;
   }
 }
 </style>

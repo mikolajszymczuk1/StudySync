@@ -1,11 +1,22 @@
 <template>
-  <IonButton class="primaryButton" @click="handleClick()">
+  <IonButton
+    class="primaryButton"
+    :class="plusButton ? 'primaryButton--plusButton' : ''"
+    @click="handleClick()"
+  >
     <slot />
   </IonButton>
 </template>
 
 <script setup lang="ts">
 import { IonButton } from '@ionic/vue';
+
+defineProps({
+  plusButton: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const emit = defineEmits<{
   clickAction: [];
@@ -37,5 +48,20 @@ const handleClick = (): void => {
   font-weight: 500;
   color: $ColorWhite;
   font-size: 0.875rem;
+
+  &--plusButton {
+    --border-radius: 50%;
+    --padding-top: 11.5px;
+    --padding-bottom: 11.5px;
+    --padding-start: 0;
+    --padding-end: 0;
+
+    width: 40px;
+  }
+
+  &:deep(svg) {
+    color: $ColorWhite;
+    font-size: 1.0625rem;
+  }
 }
 </style>

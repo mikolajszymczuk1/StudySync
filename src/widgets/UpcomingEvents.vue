@@ -1,11 +1,13 @@
 <template>
-  <div class="upcomingEvents">
-    <SimpleHeading class="upcomingEvents__heading">
-      Upcoming events
-    </SimpleHeading>
-    <PrimaryButton class="upcomingEvents__button" @click-action="handleClick()">
-      Manage
-    </PrimaryButton>
+  <HeadingButtonContainer class="upcomingEvents" heading="Upcoming events">
+    <template #button>
+      <PrimaryButton
+        class="upcomingEvents__button"
+        @click-action="handleClick()"
+      >
+        Manage
+      </PrimaryButton>
+    </template>
     <div class="upcomingEvents__cardsWrapper">
       <EventCard
         v-for="singleEvent in events"
@@ -15,7 +17,7 @@
         :event-date="singleEvent.eventDate"
       />
     </div>
-  </div>
+  </HeadingButtonContainer>
 </template>
 
 <script setup lang="ts">
@@ -23,8 +25,8 @@ import type { PropType } from 'vue';
 import { useIonRouter } from '@ionic/vue';
 import type { EventData } from '@/types/commonTypes';
 import EventCard from '@/components/cards/EventCard.vue';
-import SimpleHeading from '@/components/ui/SimpleHeading.vue';
 import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
+import HeadingButtonContainer from '@/components/layouts/HeadingButtonContainer.vue';
 
 defineProps({
   events: {
@@ -42,24 +44,6 @@ const handleClick = (): void => {
 
 <style scoped lang="scss">
 .upcomingEvents {
-  position: relative;
-
-  padding: 15px;
-
-  background-color: $ColorBackground;
-  overflow: hidden;
-  border-radius: 20px;
-
-  &__heading {
-    margin-bottom: 23px;
-  }
-
-  &__button {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-  }
-
   &__cardsWrapper {
     display: flex;
     justify-items: center;
