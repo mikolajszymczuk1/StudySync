@@ -15,3 +15,10 @@ export type SelectOption = {
   text: string;
   value: string;
 };
+
+export type Todo = {
+  id: number;
+  order: number;
+  name: string;
+  isComplete: boolean;
+};

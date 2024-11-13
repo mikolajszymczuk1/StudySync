@@ -9,3 +9,12 @@ body {
   min-height: 100vh;
   margin: 0;
 }
+
+.select-popover {
+  --ion-item-background: transparent;
+
+  &::part(content) {
+    background-color: $ColorAccentVariant;
+    border-radius: 15px;
+  }
+}
