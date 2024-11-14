@@ -7,10 +7,16 @@
           your <span>subjects</span>
         </TabHeading>
         <div class="tabSubjects__wrapper">
-          <div>
-            <input v-model="searchValue" type="text" name="searchSubjects" />
+          <div class="tabSubjects__filtersSection">
+            <CommonInput
+              class="tabSubjects__filterSearch"
+              name="search"
+              placeholder="Write subject name ..."
+              no-label
+            />
             <CommonSelect
               v-model="selectValue"
+              class="tabSubjects__filterEvenOdd"
               placeholder="Even/Odd"
               aria-label-value="EvenOdd"
               :options="evenOddSelectOptions"
@@ -65,24 +71,20 @@
 import { computed, type Ref, ref } from 'vue';
 import { IonContent } from '@ionic/vue';
 import DraggableComponent from 'vuedraggable';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { SelectOption, SubjectData, WeekSubjects } from '@/types/commonTypes';
+import { SearchForm } from '@/types/formTypes';
+import { useForm } from 'vee-validate';
+
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
 import PageBase from '@/components/layouts/PageBase.vue';
 import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 import HeadingButtonContainer from '@/components/layouts/HeadingButtonContainer.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import SubjectCardEditable from '@/components/cards/SubjectCardEditable.vue';
-import { SelectOption, SubjectData } from '@/types/commonTypes';
 import CommonSelect from '@/components/inputs/CommonSelect.vue';
-
-type WeekSubjects = {
-  Monday: Ref<SubjectData[]>;
-  Tuesday: Ref<SubjectData[]>;
-  Wednesday: Ref<SubjectData[]>;
-  Thursday: Ref<SubjectData[]>;
-  Friday: Ref<SubjectData[]>;
-};
+import CommonInput from '@/components/inputs/CommonInput.vue';
 
 const evenOddSelectOptions: SelectOption[] = [
   { text: 'Even', value: 'even' },
@@ -92,7 +94,6 @@ const evenOddSelectOptions: SelectOption[] = [
 const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const selectValue: Ref<string> = ref('odd');
-const searchValue: Ref<string> = ref('');
 
 const allSubjects: WeekSubjects = {
   Monday: ref([
@@ -140,6 +141,8 @@ const allSubjects: WeekSubjects = {
   Friday: ref([]),
 };
 
+const { values } = useForm<SearchForm>();
+
 /**
  * Get filter (even or odd) day items
  * @param {keyof WeekSubjects} day day name
@@ -150,12 +153,12 @@ const filteredSubjects = computed(
       return allSubjects[day].value
         .filter((subject) => subject.evenOdd === selectValue.value)
         .filter((subject) => {
-          if (!searchValue.value.trim()) {
+          if (!values.search || !values.search.trim()) {
             return true;
           }
           return subject.name
             .toLowerCase()
-            .includes(searchValue.value.toLowerCase());
+            .includes(values.search.toLowerCase());
         });
     },
 );
@@ -242,6 +245,16 @@ const handleUpdate = (event: any) => {
     border-radius: 20px 20px 0 0;
     border: solid 1px rgba($ColorAccentVariant, 0.1);
     box-shadow: 0 -4px 15px rgba($ColorAccentVariant, 0.1);
+  }
+
+  &__filtersSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__filterSearch {
+    flex: 1;
   }
 
   &__draggableList {

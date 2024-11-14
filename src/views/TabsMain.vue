@@ -78,6 +78,7 @@ import {
   faBook,
   faGraduationCap,
 } from '@fortawesome/free-solid-svg-icons';
+
 import NavBar from '@/components/common/NavBar.vue';
 
 const router = useIonRouter();
