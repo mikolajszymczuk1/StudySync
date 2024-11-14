@@ -2,15 +2,20 @@
   <div :id="`subject-${id}`" class="subjectCardEditable">
     <div class="subjectCardEditable__evenOdd">{{ evenOdd }}</div>
     <div class="subjectCardEditable__name">{{ name }}</div>
-    <PencilCircle class="subjectCardEditable__cornerIcon" />
+    <PencilCircle v-if="!isSimple" class="subjectCardEditable__cornerIcon" />
     <div class="subjectCardEditable__startEndWrapper">
       <div
+        v-if="!isSimple"
         class="subjectCardEditable__timeText subjectCardEditable__timeText--flex-1"
       >
         {{ classNumber }}
       </div>
-      <div class="subjectCardEditable__timeText">Start: {{ start }}</div>
-      <div class="subjectCardEditable__timeText">End: {{ end }}</div>
+      <div v-if="!isSimple" class="subjectCardEditable__timeText">
+        Start: {{ start }}
+      </div>
+      <div v-if="!isSimple" class="subjectCardEditable__timeText">
+        End: {{ end }}
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +47,10 @@ defineProps({
   classNumber: {
     type: String,
     default: '',
+  },
+  isSimple: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>

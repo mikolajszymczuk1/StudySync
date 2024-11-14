@@ -47,6 +47,7 @@ const subjects: SubjectData[] = [
     end: '9:30',
     evenOdd: 'odd',
     classNumber: '224',
+    grade: 4,
   },
   {
     id: 2,
@@ -56,6 +57,7 @@ const subjects: SubjectData[] = [
     end: '12:00',
     evenOdd: 'odd',
     classNumber: '224',
+    grade: 4,
   },
   {
     id: 3,
@@ -65,6 +67,7 @@ const subjects: SubjectData[] = [
     end: '10:45',
     evenOdd: 'odd',
     classNumber: '244',
+    grade: 4,
   },
   {
     id: 4,
@@ -74,6 +77,7 @@ const subjects: SubjectData[] = [
     end: '10:00',
     evenOdd: 'odd',
     classNumber: '224',
+    grade: 4,
   },
   {
     id: 5,
@@ -83,6 +87,7 @@ const subjects: SubjectData[] = [
     end: '18:00',
     evenOdd: 'odd',
     classNumber: '54',
+    grade: 4,
   },
 ];
 

@@ -6,6 +6,7 @@ export type SubjectData = {
   day: string;
   start: string;
   end: string;
+  grade: number;
   evenOdd: string;
   classNumber: string;
 };

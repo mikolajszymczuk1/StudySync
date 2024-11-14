@@ -105,6 +105,7 @@ const allSubjects: WeekSubjects = {
       end: '9:30',
       evenOdd: 'odd',
       classNumber: '224',
+      grade: 4,
     },
     {
       id: 2,
@@ -114,6 +115,7 @@ const allSubjects: WeekSubjects = {
       end: '12:00',
       evenOdd: 'odd',
       classNumber: '224',
+      grade: 4,
     },
   ]),
   Tuesday: ref([
@@ -125,6 +127,7 @@ const allSubjects: WeekSubjects = {
       end: '9:30',
       evenOdd: 'even',
       classNumber: '224',
+      grade: 4,
     },
     {
       id: 4,
@@ -134,6 +137,7 @@ const allSubjects: WeekSubjects = {
       end: '12:00',
       evenOdd: 'even',
       classNumber: '224',
+      grade: 4,
     },
   ]),
   Wednesday: ref([]),
