@@ -1,5 +1,5 @@
 <template>
-  <div class="eventCard">
+  <div :id="`event-${id}`" class="eventCard">
     <div class="eventCard__eventDate">{{ eventDate }}</div>
     <div class="eventCard__name">{{ name }}</div>
     <FontAwesomeIcon
@@ -17,6 +17,10 @@ import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import PencilCircle from '@/components/ui/PencilCircle.vue';
 
 defineProps({
+  id: {
+    type: Number,
+    default: 0,
+  },
   name: {
     type: String,
     default: '',

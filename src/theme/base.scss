@@ -12,6 +12,7 @@ body {
 
 .select-popover {
   --ion-item-background: transparent;
+  --ion-item-color: white;
 
   &::part(content) {
     background-color: $ColorAccentVariant;

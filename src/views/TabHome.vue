@@ -38,45 +38,56 @@ import TasksList from '@/widgets/TasksList.vue';
 
 const subjects: SubjectData[] = [
   {
+    id: 1,
     name: 'Subject 1',
     day: 'Monday',
     start: '8:00',
     end: '9:30',
+    evenOdd: 'odd',
     classNumber: '224',
   },
   {
+    id: 2,
     name: 'Subject 2',
     day: 'Monday',
     start: '10:15',
     end: '12:00',
+    evenOdd: 'odd',
     classNumber: '224',
   },
   {
+    id: 3,
     name: 'Subject 3',
     day: 'Friday',
     start: '9:15',
     end: '10:45',
+    evenOdd: 'odd',
     classNumber: '244',
   },
   {
+    id: 4,
     name: 'Subject 4',
     day: 'Wednesday',
     start: '7:30',
     end: '10:00',
+    evenOdd: 'odd',
     classNumber: '224',
   },
   {
+    id: 5,
     name: 'Subject 5',
     day: 'Wednesday',
     start: '16:30',
     end: '18:00',
+    evenOdd: 'odd',
     classNumber: '54',
   },
 ];
 
 const events: EventData[] = [
-  { name: 'Some event 1', eventDate: '12-01-2024' },
+  { id: 1, name: 'Some event 1', eventDate: '12-01-2024' },
   {
+    id: 2,
     name: 'Some event 2',
     eventDate: '10-10-2024',
   },

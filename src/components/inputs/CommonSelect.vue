@@ -66,8 +66,5 @@ const handleSelectChange = (
   font-size: 0.875rem;
   font-weight: 500;
   color: $ColorWhite;
-
-  &__selectOption {
-  }
 }
 </style>
