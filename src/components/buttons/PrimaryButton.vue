@@ -1,7 +1,10 @@
 <template>
   <IonButton
     class="primaryButton"
-    :class="plusButton ? 'primaryButton--plusButton' : ''"
+    :class="[
+      plusButton ? 'primaryButton--plusButton' : '',
+      bordered ? 'primaryButton--bordered' : '',
+    ]"
     @click="handleClick()"
   >
     <slot />
@@ -13,6 +16,10 @@ import { IonButton } from '@ionic/vue';
 
 defineProps({
   plusButton: {
+    type: Boolean,
+    default: false,
+  },
+  bordered: {
     type: Boolean,
     default: false,
   },
@@ -57,6 +64,13 @@ const handleClick = (): void => {
     --padding-end: 0;
 
     width: 40px;
+  }
+
+  &--bordered {
+    background-color: transparent;
+    border: solid 1px $ColorAccentVariant;
+
+    color: $ColorAccentVariant;
   }
 
   &:deep(svg) {

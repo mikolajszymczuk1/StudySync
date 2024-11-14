@@ -5,7 +5,7 @@ import TabsMain from '@/views/TabsMain.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/home',
+    redirect: '/login',
   },
   {
     path: '/tabs/',
@@ -41,6 +41,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/TabGrades.vue'),
       },
     ],
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/RegisterView.vue'),
   },
 ];
 

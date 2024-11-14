@@ -12,7 +12,7 @@
         :placeholder="placeholder"
         :name="name"
       />
-      <FontAwesomeIcon class="commonInput__icon" :icon="faMagnifyingGlass" />
+      <FontAwesomeIcon class="commonInput__icon" :icon="customIcon" />
     </div>
     <div v-if="errorMessage" class="commonInput__errorMessage">
       {{ errorMessage }}
