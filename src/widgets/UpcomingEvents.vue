@@ -11,6 +11,7 @@
     <div class="upcomingEvents__cardsWrapper">
       <EventCard
         v-for="singleEvent in events"
+        :id="singleEvent.id"
         :key="singleEvent.name"
         class="upcomingEvents__event"
         :name="singleEvent.name"

@@ -99,7 +99,6 @@ const changeTab = (tabPathName: string): void => {
     height: 80px;
 
     background-color: $ColorAccentVariant;
-    border-radius: 20px 20px 0 0;
   }
 
   &__tabButton {

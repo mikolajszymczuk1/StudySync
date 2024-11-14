@@ -25,6 +25,7 @@
       >
         <template #item="{ element }">
           <div
+            :id="`todo-${element.id}`"
             class="tasksList__task"
             :class="element.isComplete ? 'tasksList__task--complete' : ''"
           >
