@@ -1,3 +1,5 @@
+import type { Ref } from 'vue';
+
 export type SubjectData = {
   id: number;
   name: string;
@@ -24,4 +26,12 @@ export type Todo = {
   order: number;
   name: string;
   isComplete: boolean;
+};
+
+export type WeekSubjects = {
+  Monday: Ref<SubjectData[]>;
+  Tuesday: Ref<SubjectData[]>;
+  Wednesday: Ref<SubjectData[]>;
+  Thursday: Ref<SubjectData[]>;
+  Friday: Ref<SubjectData[]>;
 };

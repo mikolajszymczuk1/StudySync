@@ -28,13 +28,15 @@
 <script setup lang="ts">
 import { IonContent } from '@ionic/vue';
 import type { EventData, SubjectData } from '@/types/commonTypes';
+
+import EvenOddCalendarToggle from '@/widgets/EvenOddCalendarToggle.vue';
 import SubjectsCalendar from '@/widgets/SubjectsCalendar.vue';
 import UpcomingEvents from '@/widgets/UpcomingEvents.vue';
+import TasksList from '@/widgets/TasksList.vue';
+
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
-import EvenOddCalendarToggle from '@/widgets/EvenOddCalendarToggle.vue';
 import PageBase from '@/components/layouts/PageBase.vue';
-import TasksList from '@/widgets/TasksList.vue';
 
 const subjects: SubjectData[] = [
   {
