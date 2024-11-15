@@ -1,5 +1,5 @@
 <template>
-  <div :id="`event-${id}`" class="eventCard">
+  <div :id="`event-${id}`" class="eventCard" @click="handleClick()">
     <div class="eventCard__eventDate">{{ eventDate }}</div>
     <div class="eventCard__name">{{ name }}</div>
     <FontAwesomeIcon
@@ -17,7 +17,7 @@ import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 import PencilCircle from '@/components/ui/PencilCircle.vue';
 
-defineProps({
+const props = defineProps({
   id: {
     type: Number,
     default: 0,
@@ -35,6 +35,12 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits<{
+  onEdit: [number];
+}>();
+
+const handleClick = (): void => emit('onEdit', props.id);
 </script>
 
 <style scoped lang="scss">

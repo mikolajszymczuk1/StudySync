@@ -1,5 +1,5 @@
 <template>
-  <div :id="`subject-${id}`" class="subjectCardEditable">
+  <div :id="`subject-${id}`" class="subjectCardEditable" @click="handleClick()">
     <div class="subjectCardEditable__evenOdd">{{ evenOdd }}</div>
     <div class="subjectCardEditable__name">{{ name }}</div>
     <PencilCircle v-if="!isSimple" class="subjectCardEditable__cornerIcon" />
@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import PencilCircle from '@/components/ui/PencilCircle.vue';
 
-defineProps({
+const props = defineProps({
   id: {
     type: Number,
     default: 0,
@@ -44,6 +44,10 @@ defineProps({
     type: String,
     default: '',
   },
+  day: {
+    type: String,
+    default: '',
+  },
   classNumber: {
     type: String,
     default: '',
@@ -53,6 +57,13 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits<{
+  onEdit: [{ id: number; day: string }];
+}>();
+
+const handleClick = (): void =>
+  emit('onEdit', { id: props.id, day: props.day });
 </script>
 
 <style scoped lang="scss">

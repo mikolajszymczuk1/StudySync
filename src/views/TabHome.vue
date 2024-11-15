@@ -92,11 +92,11 @@ const subjects: SubjectData[] = [
 ];
 
 const events: EventData[] = [
-  { id: 1, name: 'Some event 1', eventDate: '12-01-2024' },
+  { id: 1, name: 'Some event 1', eventDate: '2024-01-12' },
   {
     id: 2,
     name: 'Some event 2',
-    eventDate: '10-10-2024',
+    eventDate: '2024-10-10',
   },
 ];
 </script>

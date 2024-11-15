@@ -1,5 +1,5 @@
 <template>
-  <label class="commonInput">
+  <label class="commonInput" :class="noIcon ? 'commonInput--noIcon' : ''">
     <div v-if="!noLabel" class="commonInput__label">
       {{ labelText }}
     </div>
@@ -12,7 +12,11 @@
         :placeholder="placeholder"
         :name="name"
       />
-      <FontAwesomeIcon class="commonInput__icon" :icon="customIcon" />
+      <FontAwesomeIcon
+        v-if="!noIcon"
+        class="commonInput__icon"
+        :icon="customIcon"
+      />
     </div>
     <div v-if="errorMessage" class="commonInput__errorMessage">
       {{ errorMessage }}
@@ -58,6 +62,10 @@ const props = defineProps({
     type: Object as PropType<IconDefinition>,
     default: faMagnifyingGlass,
   },
+  noIcon: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 /** Catch value and errors from field (input component) */
@@ -72,6 +80,8 @@ onMounted((): void => {
 
 <style scoped lang="scss">
 .commonInput {
+  $self: &;
+
   &__label {
     margin-bottom: 10px;
 
@@ -100,6 +110,10 @@ onMounted((): void => {
     font-size: 0.875rem;
     color: $ColorAccentVariant;
     font-weight: 500;
+
+    #{ $self }--noIcon & {
+      padding-right: 25px;
+    }
 
     &::placeholder {
       font-family: $teachers;
