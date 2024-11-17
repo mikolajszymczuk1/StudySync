@@ -28,6 +28,7 @@
     "@capacitor/core": "6.1.2",
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
+    "@capacitor/preferences": "^6.0.2",
     "@capacitor/status-bar": "6.0.1",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
@@ -37,11 +38,14 @@
     "@ionic/core": "^8.4.0",
     "@ionic/vue": "^8.4.0",
     "@ionic/vue-router": "^8.4.0",
+    "@vee-validate/yup": "^4.14.7",
     "ionicons": "^7.4.0",
+    "pinia": "^2.2.6",
     "vee-validate": "^4.14.7",
     "vue": "^3.3.0",
     "vue-router": "^4.4.5",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@capacitor/cli": "6.1.2",

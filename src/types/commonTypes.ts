@@ -36,3 +36,8 @@ export type WeekSubjects = {
   Thursday: Ref<SubjectData[]>;
   Friday: Ref<SubjectData[]>;
 };
+
+export type AuthStatus = {
+  status: boolean;
+  error?: string;
+};

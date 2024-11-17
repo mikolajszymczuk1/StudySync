@@ -14,3 +14,11 @@ export type EventsModalForm = {
 export type TabSubjectsForm = SearchForm & SubjectsModalForm;
 
 export type TabEventsForm = SearchForm & EventsModalForm;
+
+export type LoginForm = { username: string; password: string };
+
+export type RegisterForm = {
+  username: string;
+  password: string;
+  repeatPassword: string;
+};

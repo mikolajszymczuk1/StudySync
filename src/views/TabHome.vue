@@ -35,8 +35,9 @@ import UpcomingEvents from '@/widgets/UpcomingEvents.vue';
 import TasksList from '@/widgets/TasksList.vue';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
-import TabHeading from '@/components/ui/TabHeading.vue';
 import PageBase from '@/components/layouts/PageBase.vue';
+
+import TabHeading from '@/components/ui/TabHeading.vue';
 
 const subjects: SubjectData[] = [
   {

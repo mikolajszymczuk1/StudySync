@@ -37,6 +37,11 @@
 import { IonContent } from '@ionic/vue';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useIonRouter } from '@ionic/vue';
+import { LoginForm } from '@/types/formTypes';
+import { useForm } from 'vee-validate';
+import { useUserStore } from '@/stores/userStore';
+import { object, string } from 'yup';
+import { toTypedSchema } from '@vee-validate/yup';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
@@ -46,9 +51,34 @@ import CommonInput from '@/components/inputs/CommonInput.vue';
 import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 
 const router = useIonRouter();
+const userStore = useUserStore();
 
-const handleLogin = (): void => {
-  router.push('/tabs/home');
+const { values, validate, meta, setErrors } = useForm<LoginForm>({
+  validationSchema: toTypedSchema(
+    object({
+      username: string().required(),
+      password: string().required(),
+    }),
+  ),
+});
+
+const handleLogin = async (): Promise<void> => {
+  validate();
+  if (meta.value.valid) {
+    const { status, error } = await userStore.loginUser(
+      values.username,
+      values.password,
+    );
+
+    if (status) {
+      router.push('/tabs/home');
+    } else {
+      setErrors({
+        username: error,
+        password: error,
+      });
+    }
+  }
 };
 
 const handleRegister = (): void => {

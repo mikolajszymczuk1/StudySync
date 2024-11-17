@@ -22,7 +22,7 @@
             :custom-icon="faLock"
           />
           <CommonInput
-            name="passwordRepeat"
+            name="repeatPassword"
             placeholder="Repeat your password ..."
             is-password
             label-text="Repeat password"
@@ -46,6 +46,11 @@
 import { IonContent } from '@ionic/vue';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { useIonRouter } from '@ionic/vue';
+import { RegisterForm } from '@/types/formTypes';
+import { useForm } from 'vee-validate';
+import { object, string, ref as yupRef } from 'yup';
+import { toTypedSchema } from '@vee-validate/yup';
+import { useUserStore } from '@/stores/userStore';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
@@ -55,9 +60,38 @@ import CommonInput from '@/components/inputs/CommonInput.vue';
 import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 
 const router = useIonRouter();
+const userStore = useUserStore();
 
-const handleRegister = (): void => {
-  router.push('/tabs/home');
+const { values, validate, meta, setErrors } = useForm<RegisterForm>({
+  validationSchema: toTypedSchema(
+    object({
+      username: string().required().min(4),
+      password: string().required().min(4),
+      repeatPassword: string()
+        .required()
+        .min(4)
+        .oneOf([yupRef('password')], 'Passwords must match'),
+    }),
+  ),
+});
+
+const handleRegister = async (): Promise<void> => {
+  validate();
+  if (meta.value.valid) {
+    const { status, error } = await userStore.registerUser(
+      values.username,
+      values.password,
+      values.repeatPassword,
+    );
+
+    if (status) {
+      router.push('/tabs/home');
+    } else {
+      setErrors({
+        username: error,
+      });
+    }
+  }
 };
 
 const handleLogin = (): void => {
