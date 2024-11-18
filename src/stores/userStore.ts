@@ -11,10 +11,20 @@ export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
   const token: Ref<string> = ref('');
 
+  /**
+   * Get information about user log in status
+   * @returns {boolean} true if user is logged in
+   */
   const isLoggedIn = computed<boolean>(() => {
     return !!user.value && token.value !== '';
   });
 
+  /**
+   * Login user and load user session
+   * @param {string} username username
+   * @param {string} password password
+   * @returns {Promise<AuthStatus>} auth status
+   */
   const loginUser = async (
     username: string,
     password: string,
@@ -45,6 +55,13 @@ export const useUserStore = defineStore('userStore', () => {
     token.value = '';
   };
 
+  /**
+   * Register user and load session
+   * @param {string} username username
+   * @param {string} password password
+   * @param {string} repeatPassword repeat password
+   * @returns {Promise<AuthStatus>} auth status
+   */
   const registerUser = async (
     username: string,
     password: string,
@@ -65,6 +82,10 @@ export const useUserStore = defineStore('userStore', () => {
     return { status: true };
   };
 
+  /**
+   * Get and load user session
+   * @returns {Promise<AuthStatus>} auth status
+   */
   const getSessionUser = async (): Promise<AuthStatus> => {
     const storageToken = await storageGet('studySyncToken');
     if (!storageToken) {
