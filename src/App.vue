@@ -1,6 +1,6 @@
 <template>
   <IonApp class="app">
-    <IonMenu v-if="isMenuVisible" type="push" content-id="mainContent">
+    <IonMenu :disabled="isMenuVisible" type="push" content-id="mainContent">
       <IonHeader>
         <IonToolbar>
           <IonTitle>Menu Content</IonTitle>
@@ -8,7 +8,7 @@
       </IonHeader>
       <IonContent class="ion-padding">
         <IonMenuToggle>
-          <IonButton>Click to close the menu</IonButton>
+          <IonButton @click="handleClick()">Click to close the menu</IonButton>
         </IonMenuToggle>
       </IonContent>
     </IonMenu>
@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useIonRouter } from '@ionic/vue';
 import {
   IonApp,
   IonRouterOutlet,
@@ -30,10 +31,18 @@ import {
   IonButton,
   IonToolbar,
 } from '@ionic/vue';
+import { useUserStore } from '@/stores/userStore';
 
 const route = useRoute();
+const router = useIonRouter();
+const userStore = useUserStore();
 
 const isMenuVisible = computed<boolean>(() => {
-  return !['login', 'register'].includes(route.name as string);
+  return ['login', 'register'].includes(route.name as string);
 });
+
+const handleClick = async (): Promise<void> => {
+  await userStore.logoutUser();
+  router.push({ name: 'login' });
+};
 </script>

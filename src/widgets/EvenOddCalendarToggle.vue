@@ -2,7 +2,7 @@
   <div class="evenOddCalendarToggle">
     <div class="evenOddCalendarToggle__calendarHeading">Class shedule</div>
     <CommonSelect
-      v-model="selectValue"
+      v-model="subjectStore.evenOdd"
       placeholder="Even/Odd"
       aria-label-value="EvenOdd"
       :options="evenOddSelectOptions"
@@ -11,16 +11,17 @@
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref } from 'vue';
 import type { SelectOption } from '@/types/commonTypes';
+import { useSubjectStore } from '@/stores/subjectStore';
+
 import CommonSelect from '@/components/inputs/CommonSelect.vue';
+
+const subjectStore = useSubjectStore();
 
 const evenOddSelectOptions: SelectOption[] = [
   { text: 'Even', value: 'even' },
   { text: 'Odd', value: 'odd' },
 ];
-
-const selectValue: Ref<string> = ref('odd');
 </script>
 
 <style scoped lang="scss">

@@ -5,6 +5,7 @@ import { storageGet, storageSet, storageRemove } from '@/utils/storage';
 import { login, logout, register, getSession } from '@/services/userService';
 import RequestError from '@/mod/error/model/RequestError';
 import type { AuthStatus } from '@/types/commonTypes';
+import { useSubjectStore } from '@/stores/subjectStore';
 
 export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
@@ -26,6 +27,9 @@ export const useUserStore = defineStore('userStore', () => {
     user.value = response.user;
     token.value = response.token;
     storageSet('studySyncToken', token.value);
+
+    const subjectStore = useSubjectStore();
+    await subjectStore.loadSubjects();
 
     return { status: true };
   };
@@ -54,6 +58,9 @@ export const useUserStore = defineStore('userStore', () => {
     user.value = response.user;
     token.value = response.token;
     storageSet('studySyncToken', token.value);
+
+    const subjectStore = useSubjectStore();
+    await subjectStore.loadSubjects();
 
     return { status: true };
   };

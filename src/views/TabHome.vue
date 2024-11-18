@@ -13,7 +13,7 @@
         <EvenOddCalendarToggle class="tabHome__evenOddCalendarToggleWidget" />
         <SubjectsCalendar
           class="tabHome__subjectsCalendarWidget"
-          :subjects="subjects"
+          :subjects="subjectStore.subjects"
         />
         <UpcomingEvents
           class="tabHome__upcomingEventsWidget"
@@ -27,7 +27,8 @@
 
 <script setup lang="ts">
 import { IonContent } from '@ionic/vue';
-import type { EventData, SubjectData } from '@/types/commonTypes';
+import type { EventData } from '@/types/commonTypes';
+import { useSubjectStore } from '@/stores/subjectStore';
 
 import EvenOddCalendarToggle from '@/widgets/EvenOddCalendarToggle.vue';
 import SubjectsCalendar from '@/widgets/SubjectsCalendar.vue';
@@ -39,58 +40,7 @@ import PageBase from '@/components/layouts/PageBase.vue';
 
 import TabHeading from '@/components/ui/TabHeading.vue';
 
-const subjects: SubjectData[] = [
-  {
-    id: 1,
-    name: 'Subject 1',
-    day: 'Monday',
-    start: '8:00',
-    end: '9:30',
-    evenOdd: 'odd',
-    classNumber: '224',
-    grade: 4,
-  },
-  {
-    id: 2,
-    name: 'Subject 2',
-    day: 'Monday',
-    start: '10:15',
-    end: '12:00',
-    evenOdd: 'odd',
-    classNumber: '224',
-    grade: 4,
-  },
-  {
-    id: 3,
-    name: 'Subject 3',
-    day: 'Friday',
-    start: '9:15',
-    end: '10:45',
-    evenOdd: 'odd',
-    classNumber: '244',
-    grade: 4,
-  },
-  {
-    id: 4,
-    name: 'Subject 4',
-    day: 'Wednesday',
-    start: '7:30',
-    end: '10:00',
-    evenOdd: 'odd',
-    classNumber: '224',
-    grade: 4,
-  },
-  {
-    id: 5,
-    name: 'Subject 5',
-    day: 'Wednesday',
-    start: '16:30',
-    end: '18:00',
-    evenOdd: 'odd',
-    classNumber: '54',
-    grade: 4,
-  },
-];
+const subjectStore = useSubjectStore();
 
 const events: EventData[] = [
   { id: 1, name: 'Some event 1', eventDate: '2024-01-12' },

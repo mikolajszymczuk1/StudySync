@@ -11,19 +11,19 @@
     >
       <IonContent class="subjectCard__modalContent">
         <div class="subjectCard__modalMainContent">
-          <p class="subjectCard__name">Subject name</p>
+          <p class="subjectCard__name">{{ subjectData.name }}</p>
           <div class="subjectCard__wrapper">
-            <p class="subjectCard__text">Start: {{ subjectData.start }}</p>
-            <p class="subjectCard__text">End: {{ subjectData.end }}</p>
+            <p class="subjectCard__text">Start: {{ subjectData.startTime }}</p>
+            <p class="subjectCard__text">End: {{ subjectData.endTime }}</p>
             <p class="subjectCard__text">{{ subjectData.classNumber }}</p>
           </div>
         </div>
       </IonContent>
     </IonModal>
-    <p class="subjectCard__name">Subject name</p>
+    <p class="subjectCard__name">{{ subjectData.name }}</p>
     <div class="subjectCard__wrapper">
-      <p class="subjectCard__text">Start: {{ subjectData.start }}</p>
-      <p class="subjectCard__text">End: {{ subjectData.end }}</p>
+      <p class="subjectCard__text">Start: {{ subjectData.startTime }}</p>
+      <p class="subjectCard__text">End: {{ subjectData.endTime }}</p>
       <p class="subjectCard__text">{{ subjectData.classNumber }}</p>
     </div>
   </div>
@@ -32,11 +32,11 @@
 <script setup lang="ts">
 import { computed, type PropType, type Ref, ref } from 'vue';
 import { IonModal, IonContent } from '@ionic/vue';
-import type { SubjectData } from '@/types/commonTypes';
+import Subject from '@/mod/subject/model/Subject';
 
 const props = defineProps({
   subjectData: {
-    type: Object as PropType<SubjectData>,
+    type: Object as PropType<Subject>,
     required: true,
   },
 });
@@ -50,8 +50,8 @@ const isDetailsPopupOpen: Ref<boolean> = ref(false);
  * @returns {number} calculated height
  */
 const blockHeight = computed<number>(() => {
-  const [hourStart, minutesStart] = props.subjectData.start.split(':');
-  const [hourEnd, minutesEnd] = props.subjectData.end.split(':');
+  const [hourStart, minutesStart] = props.subjectData.startTime.split(':');
+  const [hourEnd, minutesEnd] = props.subjectData.endTime.split(':');
 
   const quarters: number =
     (parseInt(hourEnd) - parseInt(hourStart)) * 4 +

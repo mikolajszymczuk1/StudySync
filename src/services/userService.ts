@@ -1,5 +1,5 @@
 import { apiClient } from '@/utils/apiClient';
-import { HttpResponse } from '@capacitor/core';
+import type { HttpResponse } from '@capacitor/core';
 import RequestError from '@/mod/error/model/RequestError';
 import User from '@/mod/user/model/User';
 
