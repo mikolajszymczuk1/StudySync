@@ -9,7 +9,8 @@
 
 Client project, mobile application for Study Sync
 
-
+![](./docs/AppPreview.png)
+![](./docs/AppPreview2.png)
 
 ## Tech stack
 
