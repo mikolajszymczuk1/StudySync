@@ -28,15 +28,20 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
-import type { SubjectData } from '@/types/commonTypes';
+import Subject from '@/mod/subject/model/Subject';
+import { WeekSubjects } from '@/types/commonTypes';
+import { useSubjectStore } from '@/stores/subjectStore';
+
 import SubjectCard from '@/components/cards/SubjectCard.vue';
 
 const props = defineProps({
   subjects: {
-    type: Array as PropType<SubjectData[]>,
+    type: Object as PropType<WeekSubjects>,
     required: true,
   },
 });
+
+const subjectStore = useSubjectStore();
 
 const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const hours: string[] = [
@@ -62,18 +67,18 @@ const hours: string[] = [
  * @param {string} day day
  * @param {string} hour hour
  * @param {number} quarter quarter
- * @returns {SubjectData | undefined} fond subject data object or undefined if not found
+ * @returns {Subject | undefined} fond subject data object or undefined if not found
  */
 const getSubject = (
   day: string,
   hour: string,
   quarter: number,
-): SubjectData | undefined => {
+): Subject | undefined => {
   const minutes: number = (quarter - 1) * 15;
-  return props.subjects.find(
-    (subject: any) =>
-      subject.day === day &&
-      subject.start ===
+  return props.subjects[day as keyof WeekSubjects].find(
+    (subject: Subject) =>
+      subject.evenOdd === subjectStore.evenOdd &&
+      subject.startTime ===
         `${hour.split(':')[0]}:${minutes !== 0 ? minutes : '00'}`,
   );
 };

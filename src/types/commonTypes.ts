@@ -1,4 +1,4 @@
-import type { Ref } from 'vue';
+import Subject from '@/mod/subject/model/Subject';
 
 export type SubjectData = {
   id: number;
@@ -30,11 +30,11 @@ export type Todo = {
 };
 
 export type WeekSubjects = {
-  Monday: Ref<SubjectData[]>;
-  Tuesday: Ref<SubjectData[]>;
-  Wednesday: Ref<SubjectData[]>;
-  Thursday: Ref<SubjectData[]>;
-  Friday: Ref<SubjectData[]>;
+  Monday: Subject[];
+  Tuesday: Subject[];
+  Wednesday: Subject[];
+  Thursday: Subject[];
+  Friday: Subject[];
 };
 
 export type AuthStatus = {

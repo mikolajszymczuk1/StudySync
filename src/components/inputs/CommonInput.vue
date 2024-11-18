@@ -19,7 +19,7 @@
       />
     </div>
     <div v-if="errorMessage" class="commonInput__errorMessage">
-      {{ errorMessage }}
+      - {{ errorMessage }}
     </div>
   </label>
 </template>
@@ -135,6 +135,12 @@ onMounted((): void => {
   }
 
   &__errorMessage {
+    margin-top: 6px;
+
+    font-family: $teachers;
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: rgba($ColorWhite, 0.8);
   }
 }
 </style>

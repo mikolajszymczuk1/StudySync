@@ -33,7 +33,7 @@
               <PrimaryButton
                 class="tabSubjects__dayAddButton"
                 plus-button
-                @click-action="createSubject()"
+                @click-action="createSubject(day)"
               >
                 <FontAwesomeIcon :icon="faPlus" />
               </PrimaryButton>
@@ -57,8 +57,8 @@
                     :id="element.id"
                     :name="element.name"
                     :even-odd="element.evenOdd"
-                    :start="element.start"
-                    :end="element.end"
+                    :start="element.startTime"
+                    :end="element.endTime"
                     :day="element.day"
                     :class-number="element.classNumber"
                     @on-edit="editSubject"
@@ -127,9 +127,11 @@ import { IonContent } from '@ionic/vue';
 import DraggableComponent from 'vuedraggable';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { SelectOption, SubjectData, WeekSubjects } from '@/types/commonTypes';
+import type { SelectOption, WeekSubjects } from '@/types/commonTypes';
 import { TabSubjectsForm } from '@/types/formTypes';
 import { useForm } from 'vee-validate';
+import { useSubjectStore } from '@/stores/subjectStore';
+import Subject from '@/mod/subject/model/Subject';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
@@ -143,6 +145,8 @@ import CreateEditModal from '@/components/modals/CreateEditModal.vue';
 import ModalForm from '@/components/layouts/ModalForm.vue';
 import ModalInputLabel from '@/components/ui/ModalInputLabel.vue';
 
+const subjectStore = useSubjectStore();
+
 // Modal data
 // ---------------------------------------------
 
@@ -153,6 +157,7 @@ const minutesStart: Ref<string> = ref('15');
 const hourEnd: Ref<string> = ref('10');
 const minutesEnd: Ref<string> = ref('30');
 const subjectIdToEdit: Ref<number> = ref(-1);
+const selectedDay: Ref<string> = ref('');
 
 const hoursOptions: SelectOption[] = [
   { text: '7', value: '7' },
@@ -190,56 +195,6 @@ const days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const selectValue: Ref<string> = ref('odd');
 
-const allSubjects: WeekSubjects = {
-  Monday: ref([
-    {
-      id: 1,
-      name: 'Subject AA',
-      day: 'Monday',
-      start: '8:00',
-      end: '9:30',
-      evenOdd: 'odd',
-      classNumber: '224',
-      grade: 4,
-    },
-    {
-      id: 2,
-      name: 'Subject AB',
-      day: 'Monday',
-      start: '10:15',
-      end: '12:00',
-      evenOdd: 'odd',
-      classNumber: '224',
-      grade: 4,
-    },
-  ]),
-  Tuesday: ref([
-    {
-      id: 3,
-      name: 'Subject BA',
-      day: 'Tuesday',
-      start: '8:00',
-      end: '9:30',
-      evenOdd: 'even',
-      classNumber: '224',
-      grade: 4,
-    },
-    {
-      id: 4,
-      name: 'Subject BB',
-      day: 'Tuesday',
-      start: '10:15',
-      end: '12:00',
-      evenOdd: 'even',
-      classNumber: '224',
-      grade: 4,
-    },
-  ]),
-  Wednesday: ref([]),
-  Thursday: ref([]),
-  Friday: ref([]),
-};
-
 const { values, setFieldValue } = useForm<TabSubjectsForm>();
 
 // Don't let user set start time later than end time
@@ -263,8 +218,8 @@ watch([hourStart, minutesStart, hourEnd, minutesEnd], () => {
  */
 const filteredSubjects = computed(
   () =>
-    (day: keyof WeekSubjects): SubjectData[] => {
-      return allSubjects[day].value
+    (day: keyof WeekSubjects): Subject[] => {
+      return subjectStore.subjects[day]
         .filter((subject) => subject.evenOdd === selectValue.value)
         .filter((subject) => {
           if (!values.search || !values.search.trim()) {
@@ -302,15 +257,26 @@ const filteredMinutesOptions = computed<SelectOption[]>(() => {
 });
 
 /**
+ * Get start time value
+ * @returns {string} start time
+ */
+const startTime = computed<string>(
+  () => `${hourStart.value}:${minutesStart.value}`,
+);
+
+/**
+ * Get end time value
+ * @returns {string} end time
+ */
+const endTime = computed<string>(() => `${hourEnd.value}:${minutesEnd.value}`);
+
+/**
  * Add specific subject to day items list
  * @param {keyof WeekSubjects} day day name
- * @param {SubjectData} subject subject object to add
+ * @param {Subject} subject subject object to add
  */
-const addSubjectToDay = (
-  day: keyof WeekSubjects,
-  subject: SubjectData,
-): void => {
-  allSubjects[day].value.push(subject);
+const addSubjectToDay = (day: keyof WeekSubjects, subject: Subject): void => {
+  subjectStore.subjects[day].push(Subject.createSubjectObject(subject));
 };
 
 /**
@@ -322,17 +288,20 @@ const removeSubjectFromDay = (
   day: keyof WeekSubjects,
   subjectId: number,
 ): void => {
-  allSubjects[day].value = allSubjects[day].value.filter(
+  subjectStore.subjects[day] = subjectStore.subjects[day].filter(
     (subject) => subject.id !== subjectId,
   );
 };
 
 /** Detect if some element is added to another list */
-const handleAdd = (event: any): void => {
+const handleAdd = async (event: any): Promise<void> => {
   const targetDay: string = event.to.id.split('__')[1];
-  const addedSubject: SubjectData = event.item.__draggable_context.element;
+  const addedSubject: Subject = Subject.createSubjectObject(
+    event.item.__draggable_context.element,
+  );
   addedSubject.day = targetDay;
   addSubjectToDay(targetDay as keyof WeekSubjects, addedSubject);
+  await subjectStore.changeDay(addedSubject.id, addedSubject.day);
 };
 
 /** Detect if some element is removed from the list */
@@ -345,18 +314,18 @@ const handleRemove = (event: any): void => {
 /** Detect any update in items list and refresh specific even or odd items list */
 const handleUpdate = (event: any) => {
   const day: string = event.to.id.split('__')[1];
-  const updatedList: SubjectData[] = event.to.__draggable_component__.list.map(
-    (subject: SubjectData) => {
+  const updatedList: Subject[] = event.to.__draggable_component__.list.map(
+    (subject: Subject) => {
       const subjectId: number = subject.id;
-      return allSubjects[day as keyof WeekSubjects].value.find(
+      return subjectStore.subjects[day as keyof WeekSubjects].find(
         (subject) => subject.id === subjectId,
       );
     },
   );
 
-  allSubjects[day as keyof WeekSubjects].value = [
+  subjectStore.subjects[day as keyof WeekSubjects] = [
     ...updatedList.filter((subject) => subject.evenOdd === selectValue.value),
-    ...allSubjects[day as keyof WeekSubjects].value.filter(
+    ...subjectStore.subjects[day as keyof WeekSubjects].filter(
       (subject) => subject.evenOdd !== selectValue.value,
     ),
   ];
@@ -373,7 +342,7 @@ const closeModal = (): void => {
   modalOpen.value = false;
 };
 
-const createSubject = (): void => {
+const createSubject = (day: string): void => {
   editMode.value = false;
   setFieldValue('subjectName', '');
   setFieldValue('classRoom', '');
@@ -381,29 +350,57 @@ const createSubject = (): void => {
   minutesStart.value = '00';
   hourEnd.value = '8';
   minutesEnd.value = '00';
+  selectedDay.value = day;
   openModal();
 };
 
-const deleteSubject = (): void => {};
+const deleteSubject = async (): Promise<void> => {
+  await subjectStore.remove(subjectIdToEdit.value, selectedDay.value);
+  closeModal();
+};
 
 const editSubject = ({ id, day }: { id: number; day: string }): void => {
   editMode.value = true;
   subjectIdToEdit.value = id;
-  const foundSubjectToEdit = allSubjects[day as keyof WeekSubjects].value.find(
-    (subject) => subject.id === id,
-  );
-  const [hStart, minStart] = foundSubjectToEdit!.start.split(':');
-  const [hEnd, minEnd] = foundSubjectToEdit!.end.split(':');
+  const foundSubjectToEdit = subjectStore.subjects[
+    day as keyof WeekSubjects
+  ].find((subject) => subject.id === id);
+  const [hStart, minStart] = foundSubjectToEdit!.startTime.split(':');
+  const [hEnd, minEnd] = foundSubjectToEdit!.endTime.split(':');
   setFieldValue('subjectName', foundSubjectToEdit!.name);
   setFieldValue('classRoom', foundSubjectToEdit!.classNumber);
   hourStart.value = hStart;
   minutesStart.value = minStart;
   hourEnd.value = hEnd;
   minutesEnd.value = minEnd;
+  selectedDay.value = day;
   openModal();
 };
 
-const saveUpdateSubject = (): void => {};
+const saveUpdateSubject = async (): Promise<void> => {
+  if (editMode.value) {
+    await subjectStore.update(
+      subjectIdToEdit.value,
+      values.subjectName,
+      startTime.value,
+      endTime.value,
+      selectValue.value,
+      values.classRoom,
+      selectedDay.value,
+    );
+  } else {
+    await subjectStore.add(
+      values.subjectName,
+      startTime.value,
+      endTime.value,
+      selectValue.value,
+      values.classRoom,
+      selectedDay.value,
+    );
+  }
+
+  closeModal();
+};
 
 // ---------------------------------------------
 </script>

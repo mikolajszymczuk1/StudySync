@@ -61,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeMount } from 'vue';
+import { useSubjectStore } from '@/stores/subjectStore';
 import {
   IonTabBar,
   IonTabButton,
@@ -82,6 +84,7 @@ import {
 import NavBar from '@/components/common/NavBar.vue';
 
 const router = useIonRouter();
+const subjectStore = useSubjectStore();
 
 /**
  * Change current tab
@@ -90,6 +93,10 @@ const router = useIonRouter();
 const changeTab = (tabPathName: string): void => {
   router.push(`/tabs/${tabPathName}`);
 };
+
+onBeforeMount(async (): Promise<void> => {
+  await subjectStore.loadSubjects();
+});
 </script>
 
 <style scoped lang="scss">

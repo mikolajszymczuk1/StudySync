@@ -33,77 +33,35 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { IonContent } from '@ionic/vue';
-import type { SubjectData } from '@/types/commonTypes';
+import Subject from '@/mod/subject/model/Subject';
+import { useSubjectStore } from '@/stores/subjectStore';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
 import PageBase from '@/components/layouts/PageBase.vue';
 import SubjectCardEditable from '@/components/cards/SubjectCardEditable.vue';
 
-const subjects: SubjectData[] = [
-  {
-    id: 1,
-    name: 'Subject 1',
-    day: 'Monday',
-    start: '8:00',
-    end: '9:30',
-    evenOdd: 'odd',
-    classNumber: '224',
-    grade: 4,
-  },
-  {
-    id: 2,
-    name: 'Subject 2',
-    day: 'Monday',
-    start: '10:15',
-    end: '12:00',
-    evenOdd: 'odd',
-    classNumber: '224',
-    grade: 2,
-  },
-  {
-    id: 3,
-    name: 'Subject 3',
-    day: 'Friday',
-    start: '9:15',
-    end: '10:45',
-    evenOdd: 'odd',
-    classNumber: '244',
-    grade: 5,
-  },
-  {
-    id: 4,
-    name: 'Subject 4',
-    day: 'Wednesday',
-    start: '7:30',
-    end: '10:00',
-    evenOdd: 'odd',
-    classNumber: '224',
-    grade: 5,
-  },
-  {
-    id: 5,
-    name: 'Subject 5',
-    day: 'Wednesday',
-    start: '16:30',
-    end: '18:00',
-    evenOdd: 'odd',
-    classNumber: '54',
-    grade: 3,
-  },
-];
+const subjectStore = useSubjectStore();
+
+/**
+ * Flat all subjects day arrays to single array to easy calculate average grade
+ * @returns {Subject[]} single subjects array
+ */
+const subjects = computed<Subject[]>(() =>
+  Object.values(subjectStore.subjects).flat(),
+);
 
 /**
  * Get average grade calculated from all subjects' grades
  * @returns {number} average grade
  */
 const avgGrade = computed<number>(() => {
-  if (subjects.length === 0) {
+  if (subjects.value.length === 0) {
     return 0;
   }
 
-  const sum = subjects.reduce((acc, subject) => acc + subject.grade, 0);
-  return sum / subjects.length;
+  const sum = subjects.value.reduce((acc, subject) => acc + subject.grade, 0);
+  return sum / subjects.value.length;
 });
 </script>
 
