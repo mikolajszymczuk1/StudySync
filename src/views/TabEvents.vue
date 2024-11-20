@@ -21,7 +21,9 @@
               :id="event.id"
               :key="event.id"
               :name="event.name"
-              :event-date="event.eventDate"
+              :event-date="
+                eventStore.convertToStringDate(new Date(event.eventDate))
+              "
               editable
               @on-edit="editEvent"
             />
@@ -75,9 +77,10 @@ import { computed, type Ref, ref } from 'vue';
 import { IonContent, IonDatetime } from '@ionic/vue';
 import { useForm } from 'vee-validate';
 import type { TabEventsForm } from '@/types/formTypes';
-import type { EventData } from '@/types/commonTypes';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useEventStore } from '@/stores/eventStore';
+import Event from '@/mod/event/model/Event';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
@@ -88,6 +91,8 @@ import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 import CreateEditModal from '@/components/modals/CreateEditModal.vue';
 import ModalForm from '@/components/layouts/ModalForm.vue';
 import ModalInputLabel from '@/components/ui/ModalInputLabel.vue';
+
+const eventStore = useEventStore();
 
 const { values, setFieldValue } = useForm<TabEventsForm>();
 
@@ -101,39 +106,18 @@ const eventIdToEdit: Ref<number> = ref(-1);
 
 // ---------------------------------------------
 
-const events: EventData[] = [
-  { id: 1, name: 'Some event 1', eventDate: '2024-10-14' },
-  { id: 2, name: 'Some event 2', eventDate: '2024-10-20' },
-  { id: 3, name: 'Some event 3', eventDate: '2024-10-14' },
-  { id: 4, name: 'Some event 4', eventDate: '2024-10-20' },
-  { id: 5, name: 'Some event 5', eventDate: '2024-10-14' },
-  { id: 6, name: 'Some event 6', eventDate: '2024-10-20' },
-];
-
 /**
  * Get filtered events by search value
- * @returns {EventData[]} filtered events items
+ * @returns {Event[]} filtered events items
  */
-const filteredEvents = computed<EventData[]>(() => {
-  return events.filter((event) => {
+const filteredEvents = computed<Event[]>(() => {
+  return eventStore.events.filter((event) => {
     if (!values.search || !values.search.trim()) {
       return true;
     }
 
     return event.name.toLowerCase().includes(values.search.toLowerCase());
   });
-});
-
-/**
- * Get current date in specific date format
- * @returns {string} current date
- */
-const currentDate = computed<string>(() => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-  return `${year}-${month}-${day}`;
 });
 
 // Modal logic handlers
@@ -150,22 +134,40 @@ const closeModal = (): void => {
 const createEvent = (): void => {
   editMode.value = false;
   setFieldValue('eventName', '');
-  eventDate.value = currentDate.value;
+  eventDate.value = eventStore.convertToStringDate(new Date());
   openModal();
 };
 
 const editEvent = (id: number): void => {
   editMode.value = true;
   eventIdToEdit.value = id;
-  const foundEventToEdit = events.find((event: EventData) => event.id === id);
+  const foundEventToEdit = eventStore.events.find(
+    (event: Event) => event.id === id,
+  );
   setFieldValue('eventName', foundEventToEdit!.name);
-  eventDate.value = foundEventToEdit!.eventDate;
+  const d = new Date(foundEventToEdit!.eventDate);
+  eventDate.value = eventStore.convertToStringDate(d);
   openModal();
 };
 
-const deleteEvent = (): void => {};
+const deleteEvent = async (): Promise<void> => {
+  await eventStore.remove(eventIdToEdit.value);
+  closeModal();
+};
 
-const saveUpdateEvent = (): void => {};
+const saveUpdateEvent = async (): Promise<void> => {
+  if (editMode.value) {
+    await eventStore.update(
+      eventIdToEdit.value,
+      values.eventName,
+      new Date(eventDate.value).getTime(),
+    );
+  } else {
+    await eventStore.add(values.eventName, new Date(eventDate.value).getTime());
+  }
+
+  closeModal();
+};
 
 // ---------------------------------------------
 </script>

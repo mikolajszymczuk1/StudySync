@@ -17,7 +17,7 @@
         />
         <UpcomingEvents
           class="tabHome__upcomingEventsWidget"
-          :events="events"
+          :events="eventStore.events"
         />
         <TasksList class="tabHome__tasksListWidget" />
       </TabMainContent>
@@ -27,8 +27,8 @@
 
 <script setup lang="ts">
 import { IonContent } from '@ionic/vue';
-import type { EventData } from '@/types/commonTypes';
 import { useSubjectStore } from '@/stores/subjectStore';
+import { useEventStore } from '@/stores/eventStore';
 
 import EvenOddCalendarToggle from '@/widgets/EvenOddCalendarToggle.vue';
 import SubjectsCalendar from '@/widgets/SubjectsCalendar.vue';
@@ -41,15 +41,7 @@ import PageBase from '@/components/layouts/PageBase.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
 
 const subjectStore = useSubjectStore();
-
-const events: EventData[] = [
-  { id: 1, name: 'Some event 1', eventDate: '2024-01-12' },
-  {
-    id: 2,
-    name: 'Some event 2',
-    eventDate: '2024-10-10',
-  },
-];
+const eventStore = useEventStore();
 </script>
 
 <style scoped lang="scss">

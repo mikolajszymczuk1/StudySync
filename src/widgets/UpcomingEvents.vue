@@ -15,7 +15,9 @@
         :key="singleEvent.name"
         class="upcomingEvents__event"
         :name="singleEvent.name"
-        :event-date="singleEvent.eventDate"
+        :event-date="
+          eventStore.convertToStringDate(new Date(singleEvent.eventDate))
+        "
       />
     </div>
   </HeadingButtonContainer>
@@ -24,19 +26,22 @@
 <script setup lang="ts">
 import type { PropType } from 'vue';
 import { useIonRouter } from '@ionic/vue';
-import type { EventData } from '@/types/commonTypes';
+import Event from '@/mod/event/model/Event';
+import { useEventStore } from '@/stores/eventStore';
+
 import EventCard from '@/components/cards/EventCard.vue';
 import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 import HeadingButtonContainer from '@/components/layouts/HeadingButtonContainer.vue';
 
 defineProps({
   events: {
-    type: Array as PropType<EventData[]>,
+    type: Array as PropType<Event[]>,
     required: true,
   },
 });
 
 const router = useIonRouter();
+const eventStore = useEventStore();
 
 const handleClick = (): void => {
   router.push('/tabs/events');

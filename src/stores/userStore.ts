@@ -6,6 +6,7 @@ import { login, logout, register, getSession } from '@/services/userService';
 import RequestError from '@/mod/error/model/RequestError';
 import type { AuthStatus } from '@/types/commonTypes';
 import { useSubjectStore } from '@/stores/subjectStore';
+import { useEventStore } from '@/stores/eventStore';
 
 export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
@@ -38,8 +39,7 @@ export const useUserStore = defineStore('userStore', () => {
     token.value = response.token;
     storageSet('studySyncToken', token.value);
 
-    const subjectStore = useSubjectStore();
-    await subjectStore.loadSubjects();
+    await loadUserContent();
 
     return { status: true };
   };
@@ -76,8 +76,7 @@ export const useUserStore = defineStore('userStore', () => {
     token.value = response.token;
     storageSet('studySyncToken', token.value);
 
-    const subjectStore = useSubjectStore();
-    await subjectStore.loadSubjects();
+    await loadUserContent();
 
     return { status: true };
   };
@@ -104,6 +103,14 @@ export const useUserStore = defineStore('userStore', () => {
     return { status: true };
   };
 
+  /** Load all user content data */
+  const loadUserContent = async (): Promise<void> => {
+    const subjectStore = useSubjectStore();
+    const eventStore = useEventStore();
+    await subjectStore.loadSubjects();
+    await eventStore.loadEvents();
+  };
+
   return {
     user,
     token,
@@ -112,5 +119,6 @@ export const useUserStore = defineStore('userStore', () => {
     logoutUser,
     registerUser,
     getSessionUser,
+    loadUserContent,
   };
 });
