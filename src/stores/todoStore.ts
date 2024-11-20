@@ -28,7 +28,7 @@ export const useTodoStore = defineStore('todoStore', () => {
     const userStore = useUserStore();
     const order =
       items.value.length > 0
-        ? items.value[items.value.length - 1].order + 1
+        ? Math.max(...items.value.map((item) => item.order)) + 1
         : 1;
     const newTodo = new Todo(-1, name, false, order, userStore.user!.id);
 
