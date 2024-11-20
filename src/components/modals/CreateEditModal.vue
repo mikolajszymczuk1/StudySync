@@ -16,7 +16,7 @@
       </SimpleHeading>
       <div class="createEditModal__cornerButtons">
         <PrimaryButton
-          v-if="isEditMode"
+          v-if="!noDelete && isEditMode"
           plus-button
           @click-action="handleDelete()"
         >
@@ -63,6 +63,10 @@ defineProps({
     default: false,
   },
   smallSize: {
+    type: Boolean,
+    default: false,
+  },
+  noDelete: {
     type: Boolean,
     default: false,
   },

@@ -11,17 +11,23 @@
           <div class="tabProfile__details">
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Username</div>
-              <div class="tabProfile__fieldValue">username</div>
+              <div class="tabProfile__fieldValue">
+                {{ userStore.user?.username }}
+              </div>
               <PencilCircle />
             </div>
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Firstname</div>
-              <div class="tabProfile__fieldValue">firstname</div>
+              <div class="tabProfile__fieldValue">
+                {{ userStore.user?.firstName }}
+              </div>
               <PencilCircle />
             </div>
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Lastname</div>
-              <div class="tabProfile__fieldValue">lastname</div>
+              <div class="tabProfile__fieldValue">
+                {{ userStore.user?.lastName }}
+              </div>
               <PencilCircle />
             </div>
           </div>
@@ -33,12 +39,15 @@
 
 <script setup lang="ts">
 import { IonContent } from '@ionic/vue';
+import { useUserStore } from '@/stores/userStore';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
 import PageBase from '@/components/layouts/PageBase.vue';
 import SimpleHeading from '@/components/ui/SimpleHeading.vue';
 import PencilCircle from '@/components/ui/PencilCircle.vue';
+
+const userStore = useUserStore();
 </script>
 
 <style scoped lang="scss">

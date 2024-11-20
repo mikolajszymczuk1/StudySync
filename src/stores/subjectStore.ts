@@ -7,6 +7,7 @@ import {
   updateSubject,
   deleteSubject,
   changeSubjectDay,
+  changeSubjectGrade,
 } from '@/services/subjectService';
 import { useUserStore } from '@/stores/userStore';
 
@@ -54,6 +55,31 @@ export const useSubjectStore = defineStore('subjectStore', () => {
   const changeDay = async (subjectId: number, day: string): Promise<void> => {
     const userStore = useUserStore();
     await changeSubjectDay(userStore.user!.id, subjectId, day, userStore.token);
+  };
+
+  /**
+   * Change subject grade value
+   * @param {number} subjectId subject id
+   * @param {number} grade new grade value to set
+   * @param {string} day subject day name
+   */
+  const changeGrade = async (
+    subjectId: number,
+    grade: number,
+    day: string,
+  ): Promise<void> => {
+    const userStore = useUserStore();
+
+    subjects[day as keyof WeekSubjects].find(
+      (subject) => subject.id === subjectId,
+    )!.grade = grade;
+
+    await changeSubjectGrade(
+      userStore.user!.id,
+      subjectId,
+      grade,
+      userStore.token,
+    );
   };
 
   /**
@@ -143,5 +169,14 @@ export const useSubjectStore = defineStore('subjectStore', () => {
     ].filter((subject) => subject.id !== subjectId);
   };
 
-  return { subjects, evenOdd, loadSubjects, changeDay, add, update, remove };
+  return {
+    subjects,
+    evenOdd,
+    loadSubjects,
+    changeDay,
+    changeGrade,
+    add,
+    update,
+    remove,
+  };
 });
