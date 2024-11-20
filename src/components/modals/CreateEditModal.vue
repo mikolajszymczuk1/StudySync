@@ -7,7 +7,10 @@
     :breakpoints="[0, 1]"
     @did-dismiss="handleClose()"
   >
-    <div class="createEditModal__mainContent">
+    <div
+      class="createEditModal__mainContent"
+      :class="smallSize ? 'createEditModal__mainContent--smallSize' : ''"
+    >
       <SimpleHeading class="createEditModal__heading">
         {{ heading }}
       </SimpleHeading>
@@ -59,6 +62,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  smallSize: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits<{
@@ -88,6 +95,10 @@ const handleDelete = (): void => emit('onDelete');
     background-color: $ColorWhite;
     border-radius: 20px 20px 0 0;
     border: solid 1px rgba($ColorAccentVariant, 0.1);
+
+    &--smallSize {
+      height: 50vh;
+    }
   }
 
   &__heading {

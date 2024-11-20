@@ -19,7 +19,7 @@
           class="tabHome__upcomingEventsWidget"
           :events="eventStore.events"
         />
-        <TasksList class="tabHome__tasksListWidget" />
+        <TasksList class="tabHome__tasksListWidget" :items="todoStore.items" />
       </TabMainContent>
     </IonContent>
   </PageBase>
@@ -29,6 +29,7 @@
 import { IonContent } from '@ionic/vue';
 import { useSubjectStore } from '@/stores/subjectStore';
 import { useEventStore } from '@/stores/eventStore';
+import { useTodoStore } from '@/stores/todoStore';
 
 import EvenOddCalendarToggle from '@/widgets/EvenOddCalendarToggle.vue';
 import SubjectsCalendar from '@/widgets/SubjectsCalendar.vue';
@@ -42,6 +43,7 @@ import TabHeading from '@/components/ui/TabHeading.vue';
 
 const subjectStore = useSubjectStore();
 const eventStore = useEventStore();
+const todoStore = useTodoStore();
 </script>
 
 <style scoped lang="scss">

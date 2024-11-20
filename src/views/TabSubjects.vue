@@ -88,7 +88,7 @@
             />
           </div>
           <div>
-            <ModalInputLabel>Subject name:</ModalInputLabel>
+            <ModalInputLabel>Class:</ModalInputLabel>
             <CommonInput
               name="classRoom"
               placeholder="Write name of class room ..."

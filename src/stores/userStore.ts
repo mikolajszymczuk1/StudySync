@@ -7,6 +7,7 @@ import RequestError from '@/mod/error/model/RequestError';
 import type { AuthStatus } from '@/types/commonTypes';
 import { useSubjectStore } from '@/stores/subjectStore';
 import { useEventStore } from '@/stores/eventStore';
+import { useTodoStore } from '@/stores/todoStore';
 
 export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
@@ -107,8 +108,10 @@ export const useUserStore = defineStore('userStore', () => {
   const loadUserContent = async (): Promise<void> => {
     const subjectStore = useSubjectStore();
     const eventStore = useEventStore();
+    const todoStore = useTodoStore();
     await subjectStore.loadSubjects();
     await eventStore.loadEvents();
+    await todoStore.loadItems();
   };
 
   return {

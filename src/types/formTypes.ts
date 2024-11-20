@@ -22,3 +22,7 @@ export type RegisterForm = {
   password: string;
   repeatPassword: string;
 };
+
+export type TodoModalForm = {
+  todoName: string;
+};

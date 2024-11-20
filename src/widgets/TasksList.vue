@@ -12,7 +12,7 @@
     <div class="tasksList__tasks">
       <DraggableComponent
         id="todoList"
-        v-model="items"
+        :list="items"
         class="tasksList__draggableList"
         ghost-class="ghost"
         group="todos"
@@ -39,7 +39,12 @@
                 :icon="faCheck"
               />
             </button>
-            <div class="tasksList__name">{{ element.name }}</div>
+            <div
+              class="tasksList__name"
+              @click="editTodo(element.id, element.name)"
+            >
+              {{ element.name }}
+            </div>
             <FontAwesomeIcon
               class="tasksList__trashIcon"
               :icon="faTrash"
@@ -49,55 +54,128 @@
         </template>
       </DraggableComponent>
     </div>
+    <CreateEditModal
+      :modal-open="modalOpen"
+      :heading="editMode ? 'Edit todo' : 'Create new todo'"
+      :is-edit-mode="editMode"
+      small-size
+      @on-close="closeModal()"
+      @on-delete="removeTodo(todoIdToEdit)"
+      @on-save="saveUpdateTodo()"
+    >
+      <ModalForm>
+        <div>
+          <ModalInputLabel>Todo name:</ModalInputLabel>
+          <CommonInput
+            name="todoName"
+            placeholder="Write todo name ..."
+            no-label
+            no-icon
+          />
+        </div>
+      </ModalForm>
+    </CreateEditModal>
   </HeadingButtonContainer>
 </template>
 
 <script setup lang="ts">
-import { type Ref, ref } from 'vue';
+import { type Ref, ref, type PropType } from 'vue';
 import DraggableComponent from 'vuedraggable';
-import type { Todo } from '@/types/commonTypes';
-import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
-import HeadingButtonContainer from '@/components/layouts/HeadingButtonContainer.vue';
+import Todo from '@/mod/todo/model/Todo';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPlus, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useTodoStore } from '@/stores/todoStore';
+import { useForm } from 'vee-validate';
+import type { TodoModalForm } from '@/types/formTypes';
 
-const items: Ref<Todo[]> = ref([
-  { id: 1, order: 1, name: 'Item 1', isComplete: false },
-  { id: 2, order: 2, name: 'Item 2', isComplete: false },
-  { id: 3, order: 3, name: 'Item 3', isComplete: true },
-  { id: 4, order: 4, name: 'Item 4', isComplete: true },
-]);
+import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
+import HeadingButtonContainer from '@/components/layouts/HeadingButtonContainer.vue';
+import CreateEditModal from '@/components/modals/CreateEditModal.vue';
+import ModalInputLabel from '@/components/ui/ModalInputLabel.vue';
+import CommonInput from '@/components/inputs/CommonInput.vue';
+import ModalForm from '@/components/layouts/ModalForm.vue';
+
+defineProps({
+  items: {
+    type: Array as PropType<Todo[]>,
+    default: () => [],
+  },
+});
+
+const todoStore = useTodoStore();
+const { values, setFieldValue } = useForm<TodoModalForm>();
 
 const drag: Ref<boolean> = ref(false);
 
+// Modal data
+// ---------------------------------------------
+
+const modalOpen: Ref<boolean> = ref(false);
+const editMode: Ref<boolean> = ref(false);
+const todoIdToEdit: Ref<number> = ref(-1);
+
+// ---------------------------------------------
+
+const openModal = (): void => {
+  modalOpen.value = true;
+};
+
+const closeModal = (): void => {
+  modalOpen.value = false;
+};
+
 /** Detect if some element is moved to another place */
-const handleChange = (event: any) => {
-  console.log(event);
+const handleChange = async (event: any): Promise<void> => {
+  const id: number = parseInt(event.item.id.split('-')[1]);
+  const order: number = event.newIndex + 1;
+  await todoStore.reorder(id, order);
 };
 
 /** Add new todo */
 const addTodo = (): void => {
-  console.log('Add todo');
+  editMode.value = false;
+  setFieldValue('todoName', '');
+  openModal();
+};
+
+/**
+ * Edit exists todo
+ * @param {number} id todo id
+ * @param {string} name todo name
+ */
+const editTodo = (id: number, name: string): void => {
+  editMode.value = true;
+  todoIdToEdit.value = id;
+  setFieldValue('todoName', name);
+  openModal();
 };
 
 /**
  * Remove todo
  * @param {number} id todo id to remove
  */
-const removeTodo = (id: number): void => {
-  items.value = items.value.filter((todo: Todo) => todo.id !== id);
+const removeTodo = async (id: number): Promise<void> => {
+  await todoStore.remove(id);
+  closeModal();
 };
 
 /**
  * Change complete status for todo
  * @param {number} id todo id to change
  */
-const toggleTodo = (id: number): void => {
-  items.value.forEach((todo: Todo) => {
-    if (todo.id === id) {
-      todo.isComplete = !todo.isComplete;
-    }
-  });
+const toggleTodo = async (id: number): Promise<void> => {
+  await todoStore.toggleTodo(id);
+};
+
+/** Save or update todo */
+const saveUpdateTodo = async (): Promise<void> => {
+  if (editMode.value) {
+    await todoStore.update(todoIdToEdit.value, values.todoName);
+  } else {
+    await todoStore.add(values.todoName);
+  }
+
+  closeModal();
 };
 </script>
 
@@ -152,6 +230,10 @@ const toggleTodo = (id: number): void => {
 
   &__name {
     flex: 1;
+
+    padding-right: 10px;
+
+    overflow: hidden;
 
     font-weight: 500;
     font-family: $teachers;
