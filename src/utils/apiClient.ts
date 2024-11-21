@@ -6,6 +6,7 @@ import {
 } from '@capacitor/core';
 import { BASE_SERVER_URL } from '@/conf/consts';
 import RequestError from '@/mod/error/model/RequestError';
+import { useUserStore } from '@/stores/userStore';
 
 /**
  * Convert params object to url string
@@ -63,11 +64,16 @@ export const apiClient = async (
     options.data = bodyData;
   }
 
+  const userStore = useUserStore();
+  userStore.isLoading = true;
+
   const response: HttpResponse = await CapacitorHttp.request(options);
 
   if (response.status !== 200 && response.status !== 201) {
     throw new RequestError(response.data);
   }
+
+  userStore.isLoading = false;
 
   return response;
 };

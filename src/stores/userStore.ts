@@ -12,6 +12,7 @@ import { useTodoStore } from '@/stores/todoStore';
 export const useUserStore = defineStore('userStore', () => {
   const user: Ref<User | null> = ref(null);
   const token: Ref<string> = ref('');
+  const isLoading: Ref<boolean> = ref(false);
 
   /**
    * Get information about user log in status
@@ -117,6 +118,7 @@ export const useUserStore = defineStore('userStore', () => {
   return {
     user,
     token,
+    isLoading,
     isLoggedIn,
     loginUser,
     logoutUser,

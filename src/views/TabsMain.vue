@@ -1,5 +1,8 @@
 <template>
   <IonPage class="tabsMain">
+    <div v-if="userStore.isLoading" class="tabsMain__loading">
+      <LoadingScreen />
+    </div>
     <NavBar />
     <IonTabs>
       <IonRouterOutlet></IonRouterOutlet>
@@ -82,6 +85,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from '@/components/common/NavBar.vue';
+import LoadingScreen from '@/components/loading/LoadingScreen.vue';
 
 const router = useIonRouter();
 const userStore = useUserStore();
@@ -102,6 +106,14 @@ onBeforeMount(async (): Promise<void> => {
 <style scoped lang="scss">
 .tabsMain {
   $self: &;
+
+  &__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 1;
+  }
 
   &__tabBar {
     height: 80px;
