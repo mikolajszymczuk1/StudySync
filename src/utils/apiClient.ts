@@ -78,9 +78,10 @@ export const apiClient = async (
     await userStore.logoutUser();
     userStore.isLoading = false;
     console.error(e);
+    throw new RequestError(response!.data);
   }
 
   userStore.isLoading = false;
 
-  return response!;
+  return response;
 };
