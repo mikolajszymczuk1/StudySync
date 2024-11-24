@@ -31,3 +31,6 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+/tests/e2e/screenshots/*
+/cypress
