@@ -16,6 +16,7 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
   align-items: center;
 
   width: 25px;
+  min-width: 25px;
   height: 25px;
 
   background-color: $ColorAccent;

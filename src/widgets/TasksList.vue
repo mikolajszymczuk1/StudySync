@@ -169,6 +169,11 @@ const toggleTodo = async (id: number): Promise<void> => {
 
 /** Save or update todo */
 const saveUpdateTodo = async (): Promise<void> => {
+  if (values.todoName === '') {
+    closeModal();
+    return;
+  }
+
   if (editMode.value) {
     await todoStore.update(todoIdToEdit.value, values.todoName);
   } else {

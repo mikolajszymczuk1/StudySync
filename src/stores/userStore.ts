@@ -2,7 +2,13 @@ import { type Ref, ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import User from '@/mod/user/model/User';
 import { storageGet, storageSet, storageRemove } from '@/utils/storage';
-import { login, logout, register, getSession } from '@/services/userService';
+import {
+  login,
+  logout,
+  register,
+  getSession,
+  changeData,
+} from '@/services/userService';
 import RequestError from '@/mod/error/model/RequestError';
 import type { AuthStatus } from '@/types/commonTypes';
 import { useSubjectStore } from '@/stores/subjectStore';
@@ -115,6 +121,19 @@ export const useUserStore = defineStore('userStore', () => {
     await todoStore.loadItems();
   };
 
+  /**
+   * Update user base info
+   * @param {string} field field name
+   * @param {string} value new value for field
+   */
+  const changeUserData = async (
+    field: string,
+    value: string,
+  ): Promise<void> => {
+    await changeData(user.value!.id, field, value, token.value);
+    await getSessionUser();
+  };
+
   return {
     user,
     token,
@@ -125,5 +144,6 @@ export const useUserStore = defineStore('userStore', () => {
     registerUser,
     getSessionUser,
     loadUserContent,
+    changeUserData,
   };
 });

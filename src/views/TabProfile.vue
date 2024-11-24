@@ -14,40 +14,110 @@
               <div class="tabProfile__fieldValue">
                 {{ userStore.user?.username }}
               </div>
-              <PencilCircle />
+              <PencilCircle class="tabProfile__editCircle" />
             </div>
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Firstname</div>
               <div class="tabProfile__fieldValue">
                 {{ userStore.user?.firstName }}
               </div>
-              <PencilCircle />
+              <PencilCircle @click="changeFieldValue('firstName')" />
             </div>
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Lastname</div>
               <div class="tabProfile__fieldValue">
                 {{ userStore.user?.lastName }}
               </div>
-              <PencilCircle />
+              <PencilCircle @click="changeFieldValue('lastName')" />
             </div>
           </div>
         </div>
       </TabMainContent>
+      <CreateEditModal
+        :modal-open="modalOpen"
+        :heading="`Change ${fieldToEdit === 'firstName' ? 'first name' : 'last name'}`"
+        small-size
+        no-delete
+        @on-close="closeModal()"
+        @on-save="saveUserData()"
+      >
+        <ModalForm>
+          <div>
+            <ModalInputLabel>
+              {{ fieldToEdit === 'firstName' ? 'First name' : 'Last name' }}
+            </ModalInputLabel>
+            <CommonInput :name="fieldToEdit" no-icon no-label />
+          </div>
+        </ModalForm>
+      </CreateEditModal>
     </IonContent>
   </PageBase>
 </template>
 
 <script setup lang="ts">
+import { type Ref, ref } from 'vue';
 import { IonContent } from '@ionic/vue';
 import { useUserStore } from '@/stores/userStore';
+import { useForm } from 'vee-validate';
+import type { UserDataModalForm } from '@/types/formTypes';
 
 import TabMainContent from '@/components/layouts/TabMainContent.vue';
 import TabHeading from '@/components/ui/TabHeading.vue';
 import PageBase from '@/components/layouts/PageBase.vue';
 import SimpleHeading from '@/components/ui/SimpleHeading.vue';
 import PencilCircle from '@/components/ui/PencilCircle.vue';
+import CreateEditModal from '@/components/modals/CreateEditModal.vue';
+import ModalForm from '@/components/layouts/ModalForm.vue';
+import CommonInput from '@/components/inputs/CommonInput.vue';
+import ModalInputLabel from '@/components/ui/ModalInputLabel.vue';
 
 const userStore = useUserStore();
+
+const { values, setFieldValue } = useForm<UserDataModalForm>();
+
+// Modal data
+// ---------------------------------------------
+
+const modalOpen: Ref<boolean> = ref(false);
+const fieldToEdit: Ref<string> = ref('');
+
+// ---------------------------------------------
+
+const openModal = (): void => {
+  modalOpen.value = true;
+};
+
+const closeModal = (): void => {
+  modalOpen.value = false;
+};
+
+/**
+ * Change field value
+ * @param {string} field field name
+ */
+const changeFieldValue = async (field: string): Promise<void> => {
+  fieldToEdit.value = field;
+  if (fieldToEdit.value === 'firstName') {
+    setFieldValue('firstName', userStore.user!.firstName);
+  } else {
+    setFieldValue('lastName', userStore.user!.lastName);
+  }
+  openModal();
+};
+
+/** Save user data */
+const saveUserData = async (): Promise<void> => {
+  if (values.firstName === '' || values.lastName === '') {
+    closeModal();
+    return;
+  }
+
+  await userStore.changeUserData(
+    fieldToEdit.value,
+    values[fieldToEdit.value as keyof UserDataModalForm],
+  );
+  closeModal();
+};
 </script>
 
 <style scoped lang="scss">
@@ -91,7 +161,13 @@ const userStore = useUserStore();
   &__fieldValue {
     margin: 0 15px;
 
+    overflow: hidden;
+
     color: rgba($ColorAccentVariant, 0.8);
+  }
+
+  &__editCircle {
+    opacity: 0;
   }
 }
 </style>

@@ -34,9 +34,9 @@
 </template>
 
 <script setup lang="ts">
-import { IonContent } from '@ionic/vue';
+import { onBeforeRouteLeave } from 'vue-router';
+import { IonContent, useIonRouter } from '@ionic/vue';
 import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
-import { useIonRouter } from '@ionic/vue';
 import { LoginForm } from '@/types/formTypes';
 import { useForm } from 'vee-validate';
 import { useUserStore } from '@/stores/userStore';
@@ -53,14 +53,15 @@ import PrimaryButton from '@/components/buttons/PrimaryButton.vue';
 const router = useIonRouter();
 const userStore = useUserStore();
 
-const { values, validate, meta, setErrors } = useForm<LoginForm>({
-  validationSchema: toTypedSchema(
-    object({
-      username: string().required(),
-      password: string().required(),
-    }),
-  ),
-});
+const { values, validate, meta, setErrors, setFieldValue, resetForm } =
+  useForm<LoginForm>({
+    validationSchema: toTypedSchema(
+      object({
+        username: string().required(),
+        password: string().required(),
+      }),
+    ),
+  });
 
 const handleLogin = async (): Promise<void> => {
   validate();
@@ -84,6 +85,12 @@ const handleLogin = async (): Promise<void> => {
 const handleRegister = (): void => {
   router.push('/register');
 };
+
+onBeforeRouteLeave((): void => {
+  setFieldValue('username', '');
+  setFieldValue('password', '');
+  resetForm();
+});
 </script>
 
 <style scoped lang="scss">

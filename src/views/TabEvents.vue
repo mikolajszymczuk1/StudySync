@@ -156,6 +156,11 @@ const deleteEvent = async (): Promise<void> => {
 };
 
 const saveUpdateEvent = async (): Promise<void> => {
+  if (values.eventName === '') {
+    closeModal();
+    return;
+  }
+
   if (editMode.value) {
     await eventStore.update(
       eventIdToEdit.value,

@@ -378,6 +378,11 @@ const editSubject = ({ id, day }: { id: number; day: string }): void => {
 };
 
 const saveUpdateSubject = async (): Promise<void> => {
+  if (values.subjectName === '' || values.classRoom === '') {
+    closeModal();
+    return;
+  }
+
   if (editMode.value) {
     await subjectStore.update(
       subjectIdToEdit.value,

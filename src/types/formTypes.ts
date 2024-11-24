@@ -26,3 +26,8 @@ export type RegisterForm = {
 export type TodoModalForm = {
   todoName: string;
 };
+
+export type UserDataModalForm = {
+  firstName: string;
+  lastName: string;
+};

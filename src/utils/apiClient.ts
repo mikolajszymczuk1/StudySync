@@ -66,14 +66,21 @@ export const apiClient = async (
 
   const userStore = useUserStore();
   userStore.isLoading = true;
+  let response: HttpResponse | null = null;
 
-  const response: HttpResponse = await CapacitorHttp.request(options);
+  try {
+    response = await CapacitorHttp.request(options);
 
-  if (response.status !== 200 && response.status !== 201) {
-    throw new RequestError(response.data);
+    if (response.status !== 200 && response.status !== 201) {
+      throw new RequestError(response.data);
+    }
+  } catch (e) {
+    await userStore.logoutUser();
+    userStore.isLoading = false;
+    console.error(e);
   }
 
   userStore.isLoading = false;
 
-  return response;
+  return response!;
 };

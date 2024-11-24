@@ -89,3 +89,36 @@ export const getSession = async (
     return e as RequestError;
   }
 };
+
+/**
+ * Change user data
+ * @param {number} userId user id
+ * @param {string} field field name [firstName, lastName]
+ * @param {string} value new value for field
+ * @param {string} token token
+ * @returns {Promise<User | RequestError>}
+ */
+export const changeData = async (
+  userId: number,
+  field: string,
+  value: string,
+  token: string,
+): Promise<User | RequestError> => {
+  try {
+    const response = await apiClient(
+      'PUT',
+      'user',
+      'updateData',
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      {},
+      { userId, field, newValue: value },
+    );
+
+    const data = response.data;
+    return User.createUserObject(data);
+  } catch (e) {
+    return e as RequestError;
+  }
+};
