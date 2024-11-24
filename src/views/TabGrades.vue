@@ -2,7 +2,7 @@
   <PageBase class="tabGrades">
     <IonContent :fullscreen="true">
       <TabMainContent>
-        <TabHeading>
+        <TabHeading data-cy="tabHeadingGrades">
           Manage <br />
           your <span>grades</span>
         </TabHeading>
@@ -15,6 +15,7 @@
             v-for="subject in subjects"
             :key="subject.id"
             class="tabGrades__gradeField"
+            data-cy="subjectGradeCard"
             @click="changeGrade(subject.id, subject.grade, subject.day)"
           >
             <SubjectCardEditable
@@ -23,7 +24,12 @@
               :even-odd="subject.evenOdd"
               is-simple
             />
-            <div class="tabGrades__singleGradeValue">{{ subject.grade }}</div>
+            <div
+              class="tabGrades__singleGradeValue"
+              data-cy="subjectGradeValue"
+            >
+              {{ subject.grade }}
+            </div>
           </div>
         </div>
       </TabMainContent>
@@ -39,7 +45,11 @@
           <div>
             <ModalInputLabel>Grade value:</ModalInputLabel>
             <div class="tabGrades__selectGradeWrapper">
-              <CommonSelect v-model="selectedGrade" :options="gradeOptions" />
+              <CommonSelect
+                v-model="selectedGrade"
+                :options="gradeOptions"
+                data-cy="gradeInput"
+              />
             </div>
           </div>
         </ModalForm>

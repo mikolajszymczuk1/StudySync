@@ -11,6 +11,7 @@
           class="tabsMain__tabButton"
           tab="tabProfile"
           href="/tabs/profile"
+          data-cy="tabButtonProfile"
           @click.prevent="changeTab('profile')"
         >
           <FontAwesomeIcon class="tabsMain__tabButtonIcon" :icon="faUser" />
@@ -20,6 +21,7 @@
           class="tabsMain__tabButton"
           tab="tabEvents"
           href="/tabs/events"
+          data-cy="tabButtonEvents"
           @click.prevent="changeTab('events')"
         >
           <FontAwesomeIcon
@@ -32,6 +34,7 @@
           class="tabsMain__tabButton"
           tab="tabHome"
           href="/tabs/home"
+          data-cy="tabButtonHome"
           @click.prevent="changeTab('home')"
         >
           <FontAwesomeIcon class="tabsMain__tabButtonIcon" :icon="faHouse" />
@@ -41,6 +44,7 @@
           class="tabsMain__tabButton"
           tab="tabSubjects"
           href="/tabs/subjects"
+          data-cy="tabButtonSubjects"
           @click.prevent="changeTab('subjects')"
         >
           <FontAwesomeIcon class="tabsMain__tabButtonIcon" :icon="faBook" />
@@ -50,6 +54,7 @@
           class="tabsMain__tabButton"
           tab="tabGrades"
           href="/tabs/grades"
+          data-cy="tabButtonGrades"
           @click.prevent="changeTab('grades')"
         >
           <FontAwesomeIcon

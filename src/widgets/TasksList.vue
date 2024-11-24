@@ -4,6 +4,7 @@
       <PrimaryButton
         class="tasksList__button"
         plus-button
+        data-cy="addTodoButton"
         @click-action="addTodo()"
       >
         <FontAwesomeIcon :icon="faPlus" />
@@ -19,6 +20,7 @@
         item-key="order"
         :disabled="false"
         :animation="200"
+        data-cy="todoList"
         @start="drag = true"
         @end="drag = false"
         @update="handleChange"
@@ -28,9 +30,11 @@
             :id="`todo-${element.id}`"
             class="tasksList__task"
             :class="element.isComplete ? 'tasksList__task--complete' : ''"
+            data-cy="singleTodo"
           >
             <button
               class="tasksList__taskCheckButton"
+              data-cy="todoToggleButton"
               @click="toggleTodo(element.id)"
             >
               <FontAwesomeIcon
@@ -41,6 +45,7 @@
             </button>
             <div
               class="tasksList__name"
+              data-cy="todoEditName"
               @click="editTodo(element.id, element.name)"
             >
               {{ element.name }}
@@ -48,6 +53,7 @@
             <FontAwesomeIcon
               class="tasksList__trashIcon"
               :icon="faTrash"
+              data-cy="todoTrashButton"
               @click="removeTodo(element.id)"
             />
           </div>
@@ -71,6 +77,7 @@
             placeholder="Write todo name ..."
             no-label
             no-icon
+            data-cy="todoNameInput"
           />
         </div>
       </ModalForm>

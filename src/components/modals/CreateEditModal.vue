@@ -18,6 +18,7 @@
         <PrimaryButton
           v-if="!noDelete && isEditMode"
           plus-button
+          data-cy="modalDeleteButton"
           @click-action="handleDelete()"
         >
           <FontAwesomeIcon :icon="faTrash" />
@@ -31,6 +32,7 @@
         <div class="createEditModal__saveButtonContainer">
           <PrimaryButton
             class="createEditModal__saveButton"
+            data-cy="modalUpdateSaveButton"
             @click-action="handleSave()"
           >
             {{ isEditMode ? 'Update' : 'Save' }}

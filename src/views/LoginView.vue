@@ -3,7 +3,7 @@
     <NavBar />
     <IonContent :fullscreen="true">
       <TabMainContent>
-        <TabHeading class="loginView__heading">
+        <TabHeading class="loginView__heading" data-cy="tabHeadingLogin">
           <span>Login</span> to your <br />
           account
         </TabHeading>
@@ -13,6 +13,7 @@
             placeholder="Write your username ..."
             label-text="Username"
             :custom-icon="faUser"
+            data-cy="loginUsernameInput"
           />
           <CommonInput
             name="password"
@@ -20,9 +21,12 @@
             is-password
             label-text="Password"
             :custom-icon="faLock"
+            data-cy="loginPasswordInput"
           />
           <div class="loginView__buttons">
-            <PrimaryButton @click-action="handleLogin()">Login</PrimaryButton>
+            <PrimaryButton data-cy="loginButton" @click-action="handleLogin()">
+              Login
+            </PrimaryButton>
             <PrimaryButton bordered @click-action="handleRegister()">
               Register
             </PrimaryButton>

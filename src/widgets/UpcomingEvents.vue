@@ -3,6 +3,7 @@
     <template #button>
       <PrimaryButton
         class="upcomingEvents__button"
+        data-cy="goToManageEventsTabButton"
         @click-action="handleClick()"
       >
         Manage

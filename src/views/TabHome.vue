@@ -2,7 +2,7 @@
   <PageBase class="tabHome">
     <IonContent :fullscreen="true">
       <TabMainContent>
-        <TabHeading large-bottom-space>
+        <TabHeading large-bottom-space data-cy="tabHeadingHome">
           Become a
           <span>
             time <br />

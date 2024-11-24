@@ -3,7 +3,7 @@
     <NavBar />
     <IonContent :fullscreen="true">
       <TabMainContent>
-        <TabHeading class="registerView__heading">
+        <TabHeading class="registerView__heading" data-cy="tabHeadingRegister">
           <span>Create</span> new <br />
           account
         </TabHeading>
@@ -13,6 +13,7 @@
             placeholder="Write your username ..."
             label-text="Username"
             :custom-icon="faUser"
+            data-cy="registerUsernameInput"
           />
           <CommonInput
             name="password"
@@ -20,6 +21,7 @@
             is-password
             label-text="Password"
             :custom-icon="faLock"
+            data-cy="registerPasswordInput"
           />
           <CommonInput
             name="repeatPassword"
@@ -27,9 +29,13 @@
             is-password
             label-text="Repeat password"
             :custom-icon="faLock"
+            data-cy="registerRepeatPasswordInput"
           />
           <div class="registerView__buttons">
-            <PrimaryButton @click-action="handleRegister()">
+            <PrimaryButton
+              data-cy="registerButton"
+              @click-action="handleRegister()"
+            >
               Register
             </PrimaryButton>
             <PrimaryButton bordered @click-action="handleLogin()">

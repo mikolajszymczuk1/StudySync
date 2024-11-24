@@ -4,7 +4,7 @@
       <IonTitle class="navBar__logo">StudySync</IonTitle>
       <IonButtons slot="end" class="navBar__buttonsContainer">
         <IonMenuToggle>
-          <IonButton class="navBar__menuButton">
+          <IonButton class="navBar__menuButton" data-cy="sideMenuButton">
             <FontAwesomeIcon class="navBar__menuIcon" :icon="faBars" />
           </IonButton>
         </IonMenuToggle>

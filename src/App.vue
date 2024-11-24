@@ -7,7 +7,9 @@
       content-id="mainContent"
     >
       <IonHeader class="app__menuHeader">
-        <PrimaryButton @click-action="handleClick()">Logout</PrimaryButton>
+        <PrimaryButton data-cy="logoutButton" @click-action="handleClick()">
+          Logout
+        </PrimaryButton>
       </IonHeader>
       <IonContent></IonContent>
     </IonMenu>

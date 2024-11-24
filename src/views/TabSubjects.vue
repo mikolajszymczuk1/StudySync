@@ -2,7 +2,7 @@
   <PageBase class="tabSubjects">
     <IonContent :fullscreen="true">
       <TabMainContent no-padding>
-        <TabHeading class="tabSubjects__heading">
+        <TabHeading class="tabSubjects__heading" data-cy="tabHeadingSubjects">
           Setup <br />
           your <span>subjects</span>
         </TabHeading>
@@ -13,6 +13,7 @@
               name="search"
               placeholder="Write subject name ..."
               no-label
+              data-cy="subjectSearchBar"
             />
             <CommonSelect
               v-model="selectValue"
@@ -33,6 +34,7 @@
               <PrimaryButton
                 class="tabSubjects__dayAddButton"
                 plus-button
+                :data-cy="`subjectsAddSubjectButton_${day}`"
                 @click-action="createSubject(day)"
               >
                 <FontAwesomeIcon :icon="faPlus" />
@@ -48,6 +50,7 @@
                 item-key="id"
                 :disabled="false"
                 :animation="200"
+                :data-cy="`subjectsDayGroup_${day}`"
                 @add="handleAdd"
                 @remove="handleRemove"
                 @update="handleUpdate"
@@ -61,6 +64,7 @@
                     :end="element.endTime"
                     :day="element.day"
                     :class-number="element.classNumber"
+                    data-cy="subjectCard"
                     @on-edit="editSubject"
                   />
                 </template>
@@ -85,6 +89,7 @@
               placeholder="Write name for new subject ..."
               no-label
               no-icon
+              data-cy="subjectNameInput"
             />
           </div>
           <div>
@@ -94,6 +99,7 @@
               placeholder="Write name of class room ..."
               no-label
               no-icon
+              data-cy="subjectClassroomInput"
             />
           </div>
           <div>

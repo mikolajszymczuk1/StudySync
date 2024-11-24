@@ -2,9 +2,9 @@
   <PageBase class="tabProfile">
     <IonContent :fullscreen="true">
       <TabMainContent>
-        <TabHeading>
+        <TabHeading data-cy="tabHeadingProfile">
           Welcome, <br />
-          <span>Username</span>
+          <span>{{ userStore.user!.username }}</span>
         </TabHeading>
         <div class="tabProfile__detailsContainer">
           <SimpleHeading>Profile details</SimpleHeading>
@@ -18,17 +18,23 @@
             </div>
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Firstname</div>
-              <div class="tabProfile__fieldValue">
+              <div class="tabProfile__fieldValue" data-cy="profileFirstname">
                 {{ userStore.user?.firstName }}
               </div>
-              <PencilCircle @click="changeFieldValue('firstName')" />
+              <PencilCircle
+                data-cy="profileChangeFirstNameButton"
+                @click="changeFieldValue('firstName')"
+              />
             </div>
             <div class="tabProfile__singleDetail">
               <div class="tabProfile__fieldType">Lastname</div>
-              <div class="tabProfile__fieldValue">
+              <div class="tabProfile__fieldValue" data-cy="profileLastname">
                 {{ userStore.user?.lastName }}
               </div>
-              <PencilCircle @click="changeFieldValue('lastName')" />
+              <PencilCircle
+                data-cy="profileChangeLastNameButton"
+                @click="changeFieldValue('lastName')"
+              />
             </div>
           </div>
         </div>
@@ -46,7 +52,12 @@
             <ModalInputLabel>
               {{ fieldToEdit === 'firstName' ? 'First name' : 'Last name' }}
             </ModalInputLabel>
-            <CommonInput :name="fieldToEdit" no-icon no-label />
+            <CommonInput
+              :name="fieldToEdit"
+              no-icon
+              no-label
+              data-cy="profileInput"
+            />
           </div>
         </ModalForm>
       </CreateEditModal>

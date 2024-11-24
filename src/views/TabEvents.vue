@@ -2,7 +2,7 @@
   <PageBase class="tabEvents">
     <IonContent :fullscreen="true">
       <TabMainContent no-padding>
-        <TabHeading class="tabEvents__heading">
+        <TabHeading class="tabEvents__heading" data-cy="tabHeadingEvents">
           Setup <br />
           your <span>events</span>
         </TabHeading>
@@ -13,6 +13,7 @@
               name="search"
               placeholder="Write event name ..."
               no-label
+              data-cy="eventSearchBar"
             />
           </div>
           <div class="tabEvents__events">
@@ -25,6 +26,7 @@
                 eventStore.convertToStringDate(new Date(event.eventDate))
               "
               editable
+              data-cy="eventCard"
               @on-edit="editEvent"
             />
           </div>
@@ -32,6 +34,7 @@
         <PrimaryButton
           class="tabEvents__addButton"
           plus-button
+          data-cy="addEvent"
           @click-action="createEvent()"
         >
           <FontAwesomeIcon :icon="faPlus" />
@@ -53,6 +56,7 @@
               placeholder="Write event name ..."
               no-label
               no-icon
+              data-cy="eventNameInput"
             />
           </div>
           <div>

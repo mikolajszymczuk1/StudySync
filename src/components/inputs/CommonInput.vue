@@ -18,7 +18,11 @@
         :icon="customIcon"
       />
     </div>
-    <div v-if="errorMessage" class="commonInput__errorMessage">
+    <div
+      v-if="errorMessage"
+      class="commonInput__errorMessage"
+      data-cy="commonInputErrorMessage"
+    >
       - {{ errorMessage }}
     </div>
   </label>

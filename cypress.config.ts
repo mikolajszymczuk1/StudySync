@@ -7,6 +7,10 @@ export default defineConfig({
     videosFolder: 'tests/e2e/videos',
     screenshotsFolder: 'tests/e2e/screenshots',
     baseUrl: 'http://localhost:5173',
+    viewportWidth: 375,
+    viewportHeight: 725,
+    retries: 0,
+    defaultCommandTimeout: 10000,
 
     setupNodeEvents() {
       // implement node event listeners here
